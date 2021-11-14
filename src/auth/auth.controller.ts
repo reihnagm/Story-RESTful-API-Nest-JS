@@ -54,7 +54,6 @@ export class AuthController {
           return Utils.response(res, 400, true, "", errors[0].constraints);
         } else {
           let c = await this.authService.isUserExists(auth);
-          console.log(c);
           if(c == null) {
             await this.authService.register(auth);
             return Utils.response(res, 200, false, "", {

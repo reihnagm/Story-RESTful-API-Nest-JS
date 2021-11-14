@@ -70,7 +70,6 @@ let AuthController = class AuthController {
                 }
                 else {
                     let c = await this.authService.isUserExists(auth);
-                    console.log(c);
                     if (c == null) {
                         await this.authService.register(auth);
                         return utils_1.Utils.response(res, 200, false, "", {
