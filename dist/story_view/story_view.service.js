@@ -16,49 +16,77 @@ exports.StoryViewService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const typeorm_3 = require("typeorm");
 const story_view_content_entity_1 = require("../entities/story_view_content.entity");
 const story_view_type_entity_1 = require("../entities/story_view_type.entity");
 const common_2 = require("@nestjs/common");
 const store_story_view_dto_1 = require("../dto/store-story-view.dto");
-const update_story_view_dto_1 = require("../dto/update-story-view.dto");
 let StoryViewService = class StoryViewService {
-    constructor(usersRepository) {
-        this.usersRepository = usersRepository;
+    constructor(storyViewContentRepository) {
+        this.storyViewContentRepository = storyViewContentRepository;
     }
     async findAllStoryViewContent() {
-        return await (0, typeorm_3.getRepository)(story_view_content_entity_1.StoryViewContent)
-            .createQueryBuilder("a")
-            .select("a.uid, a.content, a.backgroundColor, a.isBackgroundColor, a.uid_content_type, a.createdAt, a.updatedAt")
-            .orderBy("a.id", "DESC")
-            .getRawMany();
+        try {
+            return await this.storyViewContentRepository
+                .createQueryBuilder("a")
+                .select("a.uid, a.content, a.backgroundColor, a.isBackgroundColor, a.uid_content_type, a.createdAt, a.updatedAt")
+                .orderBy("a.id", "DESC")
+                .getRawMany();
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
     async findStoryViewContent(uid) {
-        return await (0, typeorm_3.getRepository)(story_view_content_entity_1.StoryViewContent)
-            .createQueryBuilder("a")
-            .select("a.uid, a.content, a.backgroundColor, a.isBackgroundColor, a.uid_content_type, a.createdAt, a.updatedAt")
-            .where("uid = :uid", { uid: uid })
-            .getRawOne();
+        try {
+            return await this.storyViewContentRepository
+                .createQueryBuilder("a")
+                .select("a.uid, a.content, a.backgroundColor, a.isBackgroundColor, a.uid_content_type, a.createdAt, a.updatedAt")
+                .where("uid = :uid", { uid: uid })
+                .getRawOne();
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
     async update(uid, data) {
-        return await (0, typeorm_3.getRepository)(story_view_content_entity_1.StoryViewContent).update({ uid: uid }, {
-            content: data.content
-        });
+        try {
+            return await this.storyViewContentRepository.update({ uid: uid }, {
+                content: data.content
+            });
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
     async findAllStoryContentType(uid) {
-        return await (0, typeorm_3.getRepository)(story_view_type_entity_1.StoryViewType)
-            .createQueryBuilder("a")
-            .select("a.id, a.uid, a.type")
-            .where("a.uid = :uid", { uid: uid })
-            .getRawOne();
+        try {
+            return await this.storyViewContentRepository
+                .createQueryBuilder("a")
+                .select("a.id, a.uid, a.type")
+                .where("a.uid = :uid", { uid: uid })
+                .getRawOne();
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
     async storeStoryViewContent(data) {
-        return await (0, typeorm_3.getRepository)(story_view_content_entity_1.StoryViewContent).save(data);
+        try {
+            return await this.storyViewContentRepository.save(data);
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
     async destroyStoryViewContent(uid) {
-        return await (0, typeorm_3.getRepository)(story_view_content_entity_1.StoryViewContent).delete({
-            uid: uid
-        });
+        try {
+            return await this.storyViewContentRepository.delete({
+                uid: uid
+            });
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
 };
 __decorate([

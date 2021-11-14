@@ -1,3 +1,4 @@
+import { AuthHttpModule } from '@modules/auth-http.module';
 import { StoryViewHttpModule } from '@modules/story_view-http.module';
 import { Module } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
@@ -22,6 +23,7 @@ import { join } from 'path';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    AuthHttpModule,
     StoryViewHttpModule,
   ],
 })

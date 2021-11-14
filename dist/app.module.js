@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
+const auth_http_module_1 = require("./modules/auth-http.module");
 const story_view_http_module_1 = require("./modules/story_view-http.module");
 const common_1 = require("@nestjs/common");
 const serve_static_1 = require("@nestjs/serve-static");
@@ -33,6 +34,7 @@ AppModule = __decorate([
                 autoLoadEntities: true,
                 synchronize: true,
             }),
+            auth_http_module_1.AuthHttpModule,
             story_view_http_module_1.StoryViewHttpModule,
         ],
     })

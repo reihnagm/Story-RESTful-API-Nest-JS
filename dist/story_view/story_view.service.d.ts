@@ -3,8 +3,8 @@ import { StoryViewContent } from '@entities/story_view_content.entity';
 import { StoryViewType } from '@entities/story_view_type.entity';
 import { StoreStoryViewDto } from '@dto/store-story-view.dto';
 export declare class StoryViewService {
-    private usersRepository;
-    constructor(usersRepository: Repository<StoryViewContent>);
+    private storyViewContentRepository;
+    constructor(storyViewContentRepository: Repository<StoryViewContent>);
     findAllStoryViewContent(): Promise<StoryViewContent[]>;
     findStoryViewContent(uid: string): Promise<StoryViewContent>;
     update(uid: any, data: StoryViewContent): Promise<import("typeorm").UpdateResult>;

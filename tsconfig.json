@@ -16,6 +16,7 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "paths": {
+      "@auth/*": ["src/auth/*"],
       "@story/*": ["src/story_view/*"],
       "@modules/*": ["src/modules/*"],
       "@entities/*": ["src/entities/*"],
