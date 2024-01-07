@@ -1,10 +1,9 @@
-export declare class Auth {
+export declare class Users {
     id: any;
     uid: any;
-    displayName: any;
     email: any;
     phone: any;
     password: any;
-    createdAt: any;
-    updatedAt: any;
+    created_at: any;
+    updated_at: any;
 }

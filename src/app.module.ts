@@ -1,17 +1,20 @@
-import { AuthHttpModule } from '@modules/auth-http.module';
-import { StoryViewHttpModule } from '@modules/story_view-http.module';
+import { AuthHttpModule } from '@modules/auth/auth-http.module';
+import { StoryContentHttpModule } from '@modules/story-content/story-content.http.module';
+import { StoryContentTypeHttpModule } from '@modules/story-content-type/story-content-type.http.module';
 import { Module } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
+import { ThrottlerModule } from '@nestjs/throttler'
 
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public'),
-      serveStaticOptions: {
-        index: false
-      }
+      rootPath: join(__dirname, '..', 'public/'),
+    }),
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 10,
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -24,7 +27,8 @@ import { join } from 'path';
       synchronize: true,
     }),
     AuthHttpModule,
-    StoryViewHttpModule,
+    StoryContentHttpModule,
+    StoryContentTypeHttpModule,
   ],
 })
 export class AppModule {}

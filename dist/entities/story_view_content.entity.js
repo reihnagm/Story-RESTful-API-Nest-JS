@@ -9,17 +9,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.StoryViewContent = void 0;
+exports.StoryContents = void 0;
 const typeorm_1 = require("typeorm");
-let StoryViewContent = class StoryViewContent {
+let StoryContents = class StoryContents {
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)({
         type: "int",
-        unsigned: true,
     }),
     __metadata("design:type", Object)
-], StoryViewContent.prototype, "id", void 0);
+], StoryContents.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         type: "varchar",
@@ -27,20 +26,20 @@ __decorate([
         length: "36"
     }),
     __metadata("design:type", Object)
-], StoryViewContent.prototype, "uid", void 0);
+], StoryContents.prototype, "uid", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         type: "longtext"
     }),
     __metadata("design:type", Object)
-], StoryViewContent.prototype, "content", void 0);
+], StoryContents.prototype, "content", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         type: "varchar",
         length: "36"
     }),
     __metadata("design:type", Object)
-], StoryViewContent.prototype, "uid_content_type", void 0);
+], StoryContents.prototype, "uid_content_type", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         type: "varchar",
@@ -48,24 +47,30 @@ __decorate([
         default: ''
     }),
     __metadata("design:type", Object)
-], StoryViewContent.prototype, "backgroundColor", void 0);
+], StoryContents.prototype, "background_color", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         type: "tinyint",
         default: 0
     }),
     __metadata("design:type", Object)
-], StoryViewContent.prototype, "isBackgroundColor", void 0);
+], StoryContents.prototype, "is_background_color", void 0);
 __decorate([
-    (0, typeorm_1.CreateDateColumn)(),
+    (0, typeorm_1.Column)({
+        type: 'datetime',
+        default: () => 'NOW()',
+    }),
     __metadata("design:type", Object)
-], StoryViewContent.prototype, "createdAt", void 0);
+], StoryContents.prototype, "created_at", void 0);
 __decorate([
-    (0, typeorm_1.UpdateDateColumn)(),
+    (0, typeorm_1.Column)({
+        type: 'datetime',
+        default: () => 'NOW()',
+    }),
     __metadata("design:type", Object)
-], StoryViewContent.prototype, "updatedAt", void 0);
-StoryViewContent = __decorate([
+], StoryContents.prototype, "updated_at", void 0);
+StoryContents = __decorate([
     (0, typeorm_1.Entity)()
-], StoryViewContent);
-exports.StoryViewContent = StoryViewContent;
+], StoryContents);
+exports.StoryContents = StoryContents;
 //# sourceMappingURL=story_view_content.entity.js.map

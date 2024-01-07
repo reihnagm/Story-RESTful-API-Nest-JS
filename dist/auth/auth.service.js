@@ -16,8 +16,8 @@ exports.AuthService = void 0;
 const typeorm_1 = require("@nestjs/typeorm");
 const Repository_1 = require("typeorm/repository/Repository");
 const auth_entity_1 = require("../entities/auth.entity");
-const login_dto_1 = require("../dto/login-dto");
-const register_dto_1 = require("../dto/register-dto");
+const login_dto_1 = require("../dto/auth/login-dto");
+const register_dto_1 = require("../dto/auth/register-dto");
 let AuthService = class AuthService {
     constructor(authRepository) {
         this.authRepository = authRepository;
@@ -25,9 +25,9 @@ let AuthService = class AuthService {
     async login(data) {
         try {
             return await this.authRepository
-                .createQueryBuilder("a")
-                .select("a.uid, a.phone, a.password, a.displayName, a.email, a.createdAt, a.updatedAt")
-                .where("a.phone = :phone", { phone: data.phone })
+                .createQueryBuilder("user")
+                .select("user.uid, user.phone, user.password, user.email, user.created_at, user.updated_at")
+                .where("user.phone = :phone", { phone: data.phone })
                 .getRawOne();
         }
         catch (e) {
@@ -45,12 +45,12 @@ let AuthService = class AuthService {
     async isUserExists(data) {
         try {
             return await this.authRepository
-                .createQueryBuilder("a")
-                .select("a.email, a.phone")
-                .where("a.email = :email", {
+                .createQueryBuilder("user")
+                .select("user.email, user.phone")
+                .where("user.email = :email", {
                 email: data.email
             })
-                .orWhere("a.phone = :phone", {
+                .orWhere("user.phone = :phone", {
                 phone: data.phone
             })
                 .getRawOne();
@@ -61,7 +61,7 @@ let AuthService = class AuthService {
     }
 };
 AuthService = __decorate([
-    __param(0, (0, typeorm_1.InjectRepository)(auth_entity_1.Auth)),
+    __param(0, (0, typeorm_1.InjectRepository)(auth_entity_1.Users)),
     __metadata("design:paramtypes", [Repository_1.Repository])
 ], AuthService);
 exports.AuthService = AuthService;

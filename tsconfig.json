@@ -17,12 +17,14 @@
     "strictBindCallApply": false,
     "paths": {
       "@auth/*": ["src/auth/*"],
-      "@story/*": ["src/story_view/*"],
+      "@story/*": ["src/story-content/*"],
+      "@story-type/*": ["src/story-content-type/*"],
       "@modules/*": ["src/modules/*"],
       "@entities/*": ["src/entities/*"],
       "@interfaces/*": ["src/interfaces/*"],
       "@utils/*": ["src/utils/*"],
-      "@dto/*": ["src/dto/*"]
+      "@dto/*": ["src/dto/*"],
+      "@filters/*": ["src/filters/*"]
     },
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false

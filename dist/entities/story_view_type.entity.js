@@ -9,17 +9,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.StoryViewType = void 0;
+exports.StoryTypes = void 0;
 const typeorm_1 = require("typeorm");
-let StoryViewType = class StoryViewType {
+let StoryTypes = class StoryTypes {
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)({
         type: "int",
-        unsigned: true,
     }),
     __metadata("design:type", Object)
-], StoryViewType.prototype, "id", void 0);
+], StoryTypes.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         type: "varchar",
@@ -27,24 +26,30 @@ __decorate([
         length: "36"
     }),
     __metadata("design:type", Object)
-], StoryViewType.prototype, "uid", void 0);
+], StoryTypes.prototype, "uid", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         type: "varchar",
         length: "20"
     }),
     __metadata("design:type", Object)
-], StoryViewType.prototype, "type", void 0);
+], StoryTypes.prototype, "type", void 0);
 __decorate([
-    (0, typeorm_1.CreateDateColumn)(),
+    (0, typeorm_1.Column)({
+        type: 'datetime',
+        default: () => 'NOW()',
+    }),
     __metadata("design:type", Object)
-], StoryViewType.prototype, "createdAt", void 0);
+], StoryTypes.prototype, "created_at", void 0);
 __decorate([
-    (0, typeorm_1.UpdateDateColumn)(),
+    (0, typeorm_1.Column)({
+        type: 'datetime',
+        default: () => 'NOW()',
+    }),
     __metadata("design:type", Object)
-], StoryViewType.prototype, "updatedAt", void 0);
-StoryViewType = __decorate([
+], StoryTypes.prototype, "updated_at", void 0);
+StoryTypes = __decorate([
     (0, typeorm_1.Entity)()
-], StoryViewType);
-exports.StoryViewType = StoryViewType;
+], StoryTypes);
+exports.StoryTypes = StoryTypes;
 //# sourceMappingURL=story_view_type.entity.js.map

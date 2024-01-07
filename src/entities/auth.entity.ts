@@ -1,10 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Auth {
+export class Users {
   @PrimaryGeneratedColumn({
     type: "int",
-    unsigned: true,    
   })
   id: any;
 
@@ -14,12 +13,6 @@ export class Auth {
     length: "36"
   })
   uid: any;
-
-  @Column({
-    type: "varchar",
-    length: "255"
-  })
-  displayName: any;
 
   @Column({
     type: "varchar",
@@ -39,9 +32,15 @@ export class Auth {
   })
   password: any;
 
-  @CreateDateColumn()
-  createdAt: any;
+  @Column({
+    type: 'datetime',
+    default: () => 'NOW()',
+  })
+  created_at: any;
 
-  @UpdateDateColumn()
-  updatedAt: any;
+  @Column({
+    type: 'datetime',
+    default: () => 'NOW()',
+  })
+  updated_at: any;
 }

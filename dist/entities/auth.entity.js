@@ -9,17 +9,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Auth = void 0;
+exports.Users = void 0;
 const typeorm_1 = require("typeorm");
-let Auth = class Auth {
+let Users = class Users {
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)({
         type: "int",
-        unsigned: true,
     }),
     __metadata("design:type", Object)
-], Auth.prototype, "id", void 0);
+], Users.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         type: "varchar",
@@ -27,45 +26,44 @@ __decorate([
         length: "36"
     }),
     __metadata("design:type", Object)
-], Auth.prototype, "uid", void 0);
+], Users.prototype, "uid", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         type: "varchar",
         length: "255"
     }),
     __metadata("design:type", Object)
-], Auth.prototype, "displayName", void 0);
+], Users.prototype, "email", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         type: "varchar",
         length: "255"
     }),
     __metadata("design:type", Object)
-], Auth.prototype, "email", void 0);
-__decorate([
-    (0, typeorm_1.Column)({
-        type: "varchar",
-        length: "255"
-    }),
-    __metadata("design:type", Object)
-], Auth.prototype, "phone", void 0);
+], Users.prototype, "phone", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         type: "varchar",
         length: "255",
     }),
     __metadata("design:type", Object)
-], Auth.prototype, "password", void 0);
+], Users.prototype, "password", void 0);
 __decorate([
-    (0, typeorm_1.CreateDateColumn)(),
+    (0, typeorm_1.Column)({
+        type: 'datetime',
+        default: () => 'NOW()',
+    }),
     __metadata("design:type", Object)
-], Auth.prototype, "createdAt", void 0);
+], Users.prototype, "created_at", void 0);
 __decorate([
-    (0, typeorm_1.UpdateDateColumn)(),
+    (0, typeorm_1.Column)({
+        type: 'datetime',
+        default: () => 'NOW()',
+    }),
     __metadata("design:type", Object)
-], Auth.prototype, "updatedAt", void 0);
-Auth = __decorate([
+], Users.prototype, "updated_at", void 0);
+Users = __decorate([
     (0, typeorm_1.Entity)()
-], Auth);
-exports.Auth = Auth;
+], Users);
+exports.Users = Users;
 //# sourceMappingURL=auth.entity.js.map
