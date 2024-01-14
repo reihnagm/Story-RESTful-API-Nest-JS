@@ -7,25 +7,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
-const auth_http_module_1 = require("./modules/auth/auth-http.module");
-const story_content_http_module_1 = require("./modules/story-content/story-content.http.module");
-const story_content_type_http_module_1 = require("./modules/story-content-type/story-content-type.http.module");
+const users_http_module_1 = require("./modules/users/users-http.module");
+const stories_http_module_1 = require("./modules/stories/stories.http.module");
+const story_types_http_module_1 = require("./modules/story-types/story-types.http.module");
 const common_1 = require("@nestjs/common");
 const serve_static_1 = require("@nestjs/serve-static");
 const typeorm_1 = require("@nestjs/typeorm");
 const path_1 = require("path");
-const throttler_1 = require("@nestjs/throttler");
+const not_found_1 = require("./middlewares/not-found");
 let AppModule = class AppModule {
+    configure(consumer) {
+        consumer.apply(not_found_1.NotFoundMiddleware).forRoutes('*');
+    }
 };
 AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             serve_static_1.ServeStaticModule.forRoot({
                 rootPath: (0, path_1.join)(__dirname, '..', 'public/'),
-            }),
-            throttler_1.ThrottlerModule.forRoot({
-                ttl: 60,
-                limit: 10,
             }),
             typeorm_1.TypeOrmModule.forRoot({
                 type: 'mysql',
@@ -37,9 +36,9 @@ AppModule = __decorate([
                 autoLoadEntities: true,
                 synchronize: true,
             }),
-            auth_http_module_1.AuthHttpModule,
-            story_content_http_module_1.StoryContentHttpModule,
-            story_content_type_http_module_1.StoryContentTypeHttpModule,
+            users_http_module_1.UsersHttpModule,
+            stories_http_module_1.StoriesHttpModule,
+            story_types_http_module_1.StoryTypesHttpModule,
         ],
     })
 ], AppModule);

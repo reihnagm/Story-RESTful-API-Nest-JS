@@ -1,20 +1,16 @@
-import { AuthHttpModule } from '@modules/auth/auth-http.module';
-import { StoryContentHttpModule } from '@modules/story-content/story-content.http.module';
-import { StoryContentTypeHttpModule } from '@modules/story-content-type/story-content-type.http.module';
-import { Module } from '@nestjs/common';
+import { UsersHttpModule } from '@modules/users/users-http.module';
+import { StoriesHttpModule } from '@modules/stories/stories.http.module';
+import { StoryTypesHttpModule } from '@modules/story-types/story-types.http.module';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
-import { ThrottlerModule } from '@nestjs/throttler'
+import { NotFoundMiddleware } from '@middlewares/not-found';
 
 @Module({
   imports: [
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public/'),
-    }),
-    ThrottlerModule.forRoot({
-      ttl: 60,
-      limit: 10,
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -26,9 +22,15 @@ import { ThrottlerModule } from '@nestjs/throttler'
       autoLoadEntities: true,
       synchronize: true,
     }),
-    AuthHttpModule,
-    StoryContentHttpModule,
-    StoryContentTypeHttpModule,
+    UsersHttpModule,
+    StoriesHttpModule,
+    StoryTypesHttpModule,
   ],
 })
-export class AppModule {}
+
+
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(NotFoundMiddleware).forRoutes('*');
+  } 
+}

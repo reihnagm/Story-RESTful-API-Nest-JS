@@ -18,14 +18,16 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@auth/*": ["src/auth/*"],
-      "@story/*": ["src/story-content/*"],
-      "@story-type/*": ["src/story-content-type/*"],
+      "@auth/*": ["src/users/*"],
+      "@stories/*": ["src/stories/*"],
+      "@story-types/*": ["src/story-types/*"],
       "@modules/*": ["src/modules/*"],
       "@entities/*": ["src/entities/*"],
       "@interfaces/*": ["src/interfaces/*"],
       "@utils/*": ["src/utils/*"],
       "@dto/*": ["src/dto/*"],
+      "@interceptors/*": ["src/interceptors/*"],
+      "@middlewares/*": ["src/middlewares/*"],
       "@filters/*": ["src/filters/*"]
     },
   }

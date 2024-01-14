@@ -8,13 +8,13 @@ export class UnauthorizedExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const status = exception.getStatus();
-    
+
     response
     .status(status)
     .json({
-        status: 401,
-        error: true,
-        message: 'Unauthorized',
+      status: 401,
+      error: true,
+      message: 'Unauthorized',
     });
   }
 }
