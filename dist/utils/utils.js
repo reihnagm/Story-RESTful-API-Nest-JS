@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Utils = void 0;
-const moment = require("moment");
+const moment_1 = require("moment");
 const path_1 = require("path");
 class Utils {
     static response(response, status, error, message, data) {
@@ -33,13 +33,13 @@ class Utils {
         }
     }
     static fdate(date) {
-        return moment(date).locale('id').format('dddd, d MMMM YYYY');
+        return (0, moment_1.default)(date).locale('id').format('dddd, d MMMM YYYY');
     }
     static formatYearAndMonth(date) {
-        return moment(date).locale('id').format('yyyy/MM');
+        return (0, moment_1.default)(date).locale('id').format('yyyy/MM');
     }
     static formatDate(date) {
-        return moment(date).locale('id').format('yyyy/MM/DD');
+        return (0, moment_1.default)(date).locale('id').format('yyyy/MM/DD');
     }
     static isImage(ext) {
         switch (ext) {

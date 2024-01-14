@@ -23,12 +23,12 @@ export class StoryContentTypeController {
       const all = await this.storyContentTypeService.findAll();
       let data = [];
       for (let i = 0; i < all.length; i++) {
-          data.push({
-              id: all[i].uid,
-              type: all[i].type,
-              created_at: Utils.formatDate(all[i].created_at),
-              updated_at: Utils.formatDate(all[i].updated_at),
-          });
+        data.push({
+          id: all[i].uid,
+          type: all[i].type,
+          created_at: Utils.formatDate(all[i].created_at),
+          updated_at: Utils.formatDate(all[i].updated_at),
+        });
       }
       return Utils.response(res, 200, false, "", data);
     } catch(e) {

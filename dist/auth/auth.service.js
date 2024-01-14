@@ -16,8 +16,6 @@ exports.AuthService = void 0;
 const typeorm_1 = require("@nestjs/typeorm");
 const Repository_1 = require("typeorm/repository/Repository");
 const auth_entity_1 = require("../entities/auth.entity");
-const login_dto_1 = require("../dto/auth/login-dto");
-const register_dto_1 = require("../dto/auth/register-dto");
 let AuthService = class AuthService {
     constructor(authRepository) {
         this.authRepository = authRepository;
