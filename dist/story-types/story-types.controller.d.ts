@@ -1,3 +1,4 @@
+import { Response, Request } from '@nestjs/common';
 import { StoryTypesService } from '@story-types/story-types.service';
 import { StoreStoryTypesDto } from '@dto/story-types/store.dto';
 import { UpdateStoryTypesDto } from '@dto/story-types/update.dto';

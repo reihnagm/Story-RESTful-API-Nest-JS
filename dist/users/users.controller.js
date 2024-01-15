@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var _a, _b, _c, _d, _e;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
@@ -108,7 +109,7 @@ __decorate([
     __param(1, (0, common_1.Res)()),
     __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, login_dto_1.LoginDto]),
+    __metadata("design:paramtypes", [typeof (_b = typeof common_1.Request !== "undefined" && common_1.Request) === "function" ? _b : Object, typeof (_c = typeof common_1.Response !== "undefined" && common_1.Response) === "function" ? _c : Object, login_dto_1.LoginDto]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "login", null);
 __decorate([
@@ -117,13 +118,12 @@ __decorate([
     __param(1, (0, common_1.Res)()),
     __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, register_dto_1.RegisterDto]),
+    __metadata("design:paramtypes", [typeof (_d = typeof common_1.Request !== "undefined" && common_1.Request) === "function" ? _d : Object, typeof (_e = typeof common_1.Response !== "undefined" && common_1.Response) === "function" ? _e : Object, register_dto_1.RegisterDto]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "register", null);
 UsersController = __decorate([
     (0, common_1.Controller)(),
-    __metadata("design:paramtypes", [users_service_1.UsersService,
-        jwt_1.JwtService])
+    __metadata("design:paramtypes", [users_service_1.UsersService, typeof (_a = typeof jwt_1.JwtService !== "undefined" && jwt_1.JwtService) === "function" ? _a : Object])
 ], UsersController);
 exports.UsersController = UsersController;
 //# sourceMappingURL=users.controller.js.map

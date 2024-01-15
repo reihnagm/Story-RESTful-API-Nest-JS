@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StoryTypesController = void 0;
 const common_1 = require("@nestjs/common");
@@ -107,7 +108,7 @@ __decorate([
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [typeof (_a = typeof common_1.Request !== "undefined" && common_1.Request) === "function" ? _a : Object, typeof (_b = typeof common_1.Response !== "undefined" && common_1.Response) === "function" ? _b : Object]),
     __metadata("design:returntype", Promise)
 ], StoryTypesController.prototype, "all", null);
 __decorate([
@@ -117,7 +118,7 @@ __decorate([
     __param(1, (0, common_1.Res)()),
     __param(2, (0, common_1.Query)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, String]),
+    __metadata("design:paramtypes", [typeof (_c = typeof common_1.Request !== "undefined" && common_1.Request) === "function" ? _c : Object, typeof (_d = typeof common_1.Response !== "undefined" && common_1.Response) === "function" ? _d : Object, String]),
     __metadata("design:returntype", Promise)
 ], StoryTypesController.prototype, "single", null);
 __decorate([
@@ -127,7 +128,7 @@ __decorate([
     __param(1, (0, common_1.Req)()),
     __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [store_dto_1.StoreStoryTypesDto, Object, Object]),
+    __metadata("design:paramtypes", [store_dto_1.StoreStoryTypesDto, typeof (_e = typeof common_1.Request !== "undefined" && common_1.Request) === "function" ? _e : Object, typeof (_f = typeof common_1.Response !== "undefined" && common_1.Response) === "function" ? _f : Object]),
     __metadata("design:returntype", Promise)
 ], StoryTypesController.prototype, "store", null);
 __decorate([
@@ -138,7 +139,7 @@ __decorate([
     __param(2, (0, common_1.Res)()),
     __param(3, (0, common_1.Query)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [update_dto_1.UpdateStoryTypesDto, Object, Object, String]),
+    __metadata("design:paramtypes", [update_dto_1.UpdateStoryTypesDto, typeof (_g = typeof common_1.Request !== "undefined" && common_1.Request) === "function" ? _g : Object, typeof (_h = typeof common_1.Response !== "undefined" && common_1.Response) === "function" ? _h : Object, String]),
     __metadata("design:returntype", Promise)
 ], StoryTypesController.prototype, "update", null);
 __decorate([
@@ -148,7 +149,7 @@ __decorate([
     __param(1, (0, common_1.Res)()),
     __param(2, (0, common_1.Query)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, String]),
+    __metadata("design:paramtypes", [typeof (_j = typeof common_1.Request !== "undefined" && common_1.Request) === "function" ? _j : Object, typeof (_k = typeof common_1.Response !== "undefined" && common_1.Response) === "function" ? _k : Object, String]),
     __metadata("design:returntype", Promise)
 ], StoryTypesController.prototype, "delete", null);
 StoryTypesController = __decorate([
