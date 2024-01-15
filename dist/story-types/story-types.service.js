@@ -35,12 +35,12 @@ let StoryTypesService = class StoryTypesService {
             console.log(e);
         }
     }
-    async find(uid) {
+    async find(id) {
         try {
             return await this.storyTypesRepository
                 .createQueryBuilder("s")
                 .select("s.id, s.uid, s.type")
-                .where("s.uid = :uid", { uid: uid })
+                .where("s.id = :id", { id: id })
                 .getRawOne();
         }
         catch (e) {
@@ -77,7 +77,7 @@ let StoryTypesService = class StoryTypesService {
     }
 };
 __decorate([
-    __param(0, (0, common_2.Param)('uid')),
+    __param(0, (0, common_2.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)

@@ -1,14 +1,16 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 import { Stories } from '@entities/stories.entity';
 import { StoryTypes } from '@entities/story_types.entity';
-import { ConfigModule } from '@nestjs/config';
+import { UserStories } from '@entities/user_stories.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       Stories, 
-      StoryTypes
+      StoryTypes,
+      UserStories
     ]), 
     ConfigModule.forRoot()
   ],

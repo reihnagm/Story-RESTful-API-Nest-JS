@@ -74,6 +74,14 @@ __decorate([
 ], Stories.prototype, "duration", void 0);
 __decorate([
     (0, typeorm_1.Column)({
+        type: "varchar",
+        length: "36",
+        default: ''
+    }),
+    __metadata("design:type", Object)
+], Stories.prototype, "user_id", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
         type: 'datetime',
         default: () => 'NOW()',
     }),

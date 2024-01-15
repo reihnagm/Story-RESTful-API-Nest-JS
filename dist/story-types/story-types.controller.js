@@ -21,6 +21,7 @@ const users_guard_1 = require("../users/users.guard");
 const store_dto_1 = require("../dto/story-types/store.dto");
 const update_dto_1 = require("../dto/story-types/update.dto");
 const story_types_entity_1 = require("../entities/story_types.entity");
+const throttler_1 = require("@nestjs/throttler");
 let StoryTypesController = class StoryTypesController {
     constructor(storyTypesService) {
         this.storyTypesService = storyTypesService;
@@ -152,6 +153,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], StoryTypesController.prototype, "delete", null);
 StoryTypesController = __decorate([
+    (0, throttler_1.SkipThrottle)(),
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [story_types_service_1.StoryTypesService])
 ], StoryTypesController);

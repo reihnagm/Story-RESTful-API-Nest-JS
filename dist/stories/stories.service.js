@@ -17,8 +17,8 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const stories_entity_1 = require("../entities/stories.entity");
-const store_dto_1 = require("../dto/stories/store.dto");
 const common_2 = require("@nestjs/common");
+const store_dto_1 = require("../dto/stories/store.dto");
 let StoriesService = class StoriesService {
     constructor(storiesRepository) {
         this.storiesRepository = storiesRepository;
@@ -89,7 +89,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], StoriesService.prototype, "update", null);
 __decorate([
-    __param(0, (0, common_2.Param)('uid')),
+    __param(0, (0, common_2.Param)('data')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [store_dto_1.StoreStoriesDto]),
     __metadata("design:returntype", Promise)

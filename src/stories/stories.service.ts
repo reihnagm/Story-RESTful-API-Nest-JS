@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Stories } from '@entities/stories.entity';
-import { StoreStoriesDto } from '@dto/stories/store.dto';
 import { Param } from '@nestjs/common';
+import { StoreStoriesDto } from '@dto/stories/store.dto';
 
 @Injectable()
 export class StoriesService {
@@ -46,7 +46,7 @@ export class StoriesService {
     }
   }
 
-  async store(@Param('uid') data: StoreStoriesDto) {
+  async store(@Param('data') data: StoreStoriesDto) {
     try { 
       return await this.storiesRepository.save(data);
     } catch(e) {

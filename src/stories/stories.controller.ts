@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Req, Res, Response, Request, Body, UploadedFile, UseInterceptors, Delete, Query, Put, UseGuards, HttpException } from '@nestjs/common';
 import { v4 } from 'uuid';
-import { StoreStoriesDto } from '@dto/stories/store.dto';
+import { FormStoreStoriesDto } from '@dto/stories/form.store.dto';
 import { UpdateStoriesDto } from '@dto/stories/update.dto';
 import { ResponseOk, Utils } from '@utils/utils';
 import { StoriesService } from '@stories/stories.service';
@@ -9,12 +9,19 @@ import { diskStorage } from 'multer';
 import { Stories } from '@entities/stories.entity';
 import { UsersGuard } from '@auth/users.guard';
 import { StoryTypesService } from '@story-types/story-types.service';
+import { SkipThrottle } from '@nestjs/throttler';
+import { StoreStoriesDto } from '@dto/stories/store.dto';
+import { UserStoriesService } from 'src/user-stories/user-stories.service';
+import { FormUserStoriesDto } from '@dto/user-stories/form.store.dto';
+import { StoreUserStoriesDto } from '@dto/user-stories/store.dto';
 
+@SkipThrottle()
 @Controller()
 export class StoriesController {
     constructor(
         private storiesService: StoriesService,
-        private storyTypesService: StoryTypesService
+        private storyTypesService: StoryTypesService,
+        private userStoriesService: UserStoriesService
     ) {}
 
     @UseGuards(UsersGuard)
@@ -81,18 +88,50 @@ export class StoriesController {
     @UseGuards(UsersGuard)
     @Post('store') 
     async store(
-        @Body() data: StoreStoriesDto, 
+        @Body() data: FormStoreStoriesDto, 
         @Req() _: Request, 
         @Res() res: Response
     ): Promise<void> {
         try {
+            let formStories = new FormStoreStoriesDto();
+
+            formStories.id = v4();
+            formStories.background_color = data.background_color;
+            formStories.text_color = data.text_color;
+            formStories.caption = data.caption;
+            formStories.media = data.media;
+            formStories.duration = data.duration;
+            formStories.type = data.type;
+            formStories.user_id = data.user_id;
+
             let stories = new StoreStoriesDto();
-            stories.uid = v4();
-            stories.caption = data.caption;
-            stories.type = data.type;
-            stories.background_color = data.background_color;
-        
-            this.validateStore(stories);
+            stories.uid = formStories.id;
+            stories.background_color = formStories.background_color;
+            stories.text_color = formStories.text_color;
+            stories.caption = formStories.caption;
+            stories.media = formStories.media;
+            stories.duration = formStories.duration;
+            stories.type = formStories.type;
+            stories.user_id = formStories.user_id;
+
+            this.validateStore(formStories);
+
+            var storyTypes = await this.storyTypesService.find(formStories.type);
+            if(typeof storyTypes == "undefined") {
+                throw new HttpException("story_types not found", 400);
+            }
+
+            let formUserStories = new FormUserStoriesDto();
+            formUserStories.id = v4();
+            formUserStories.user_id = stories.user_id;
+            formUserStories.story_id = stories.uid;
+
+            let userStories = new StoreUserStoriesDto();
+            userStories.uid = formUserStories.id;
+            userStories.user_id = formUserStories.user_id;
+            userStories.story_id = formUserStories.story_id;
+
+            await this.userStoriesService.store(userStories)
 
             await this.storiesService.store(stories);
 
@@ -108,7 +147,7 @@ export class StoriesController {
         @Body() data: UpdateStoriesDto, 
         @Req() _: Request, 
         @Res() res: Response,
-        @Query('id') uid: string, 
+        @Query('id') id: string, 
     ) {
         try {
             let updateStories = new UpdateStoriesDto();
@@ -116,14 +155,14 @@ export class StoriesController {
             updateStories.type = data.type;
             updateStories.background_color = data.background_color;
 
-            this.validateUpdate(updateStories);
+            this.validateUpdate(id);
 
             let stories = new Stories();
-            stories.caption = stories.caption;
-            stories.type = stories.type;
-            stories.background_color = stories.background_color;
+            stories.caption = updateStories.caption;
+            stories.type = updateStories.type;
+            stories.background_color = updateStories.background_color;
 
-            await this.storiesService.update(uid, stories);
+            await this.storiesService.update(id, stories);
             
             new ResponseOk(res, 200, false, "", null);
         } catch(e) {
@@ -151,22 +190,26 @@ export class StoriesController {
         }
     }
 
-    validateStore(data: StoreStoriesDto) {
-        if(data.caption == '') 
-            throw new Error(`caption is required`)
-        if(data.type == '')
-            throw new Error(`type is required`)
+    validateStore(data: FormStoreStoriesDto) {
         if(data.background_color == '')
             throw new Error(`background_color is required`)
+        if(data.text_color == '')
+            throw new Error(`text_color is required`)
+        if(data.caption == '') 
+            throw new Error(`caption is required`)
+        if(data.media == '') 
+            throw new Error(`media is required`)
+        if(data.duration == '')
+            throw new Error(`duration is required`)
+        if(data.type == '')
+            throw new Error(`type is required`)
+        if(data.user_id == '')
+            throw new Error(`user_id is required`)
     }
 
-    validateUpdate(data: UpdateStoriesDto) {
-        if(data.caption == '') 
-            throw new Error(`caption is required`)
-        if(data.type == '')
-            throw new Error(`type is required`)
-        if(data.background_color == '')
-            throw new Error(`background_color is required`)
+    validateUpdate(id: string) {
+        if(id == '')
+            throw new Error(`id is required`)
     }
 
     @Post('upload')
@@ -179,7 +222,5 @@ export class StoriesController {
         }
     ))
 
-    uploadFile(@UploadedFile() file: Express.Multer.File) {
-
-    }
+    uploadFile(@UploadedFile() file: Express.Multer.File) { }
 }

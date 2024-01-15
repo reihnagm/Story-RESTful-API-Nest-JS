@@ -5,7 +5,7 @@ export declare class StoryTypesService {
     private storyTypesRepository;
     constructor(storyTypesRepository: Repository<StoryTypes>);
     findAll(): Promise<StoryTypes[]>;
-    find(uid: string): Promise<StoryTypes>;
+    find(id: string): Promise<StoryTypes>;
     update(uid: any, data: StoryTypes): Promise<import("typeorm").UpdateResult>;
     store(data: StoreStoryTypesDto): Promise<StoreStoryTypesDto & StoryTypes>;
     destroy(uid: any): Promise<import("typeorm").DeleteResult>;

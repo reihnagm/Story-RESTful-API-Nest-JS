@@ -7,14 +7,14 @@ import { UsersService } from '@auth/users.service';
 import { UsersController } from '@auth/users.controller';
 
 // Module
-import { AuthModule } from '@modules/users/users.module';
+import { UsersModule } from '@modules/users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
-    AuthModule,
+    UsersModule,
     ThrottlerModule.forRoot({
       ttl: 60,
       limit: 5

@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { NotFoundMiddleware } from '@middlewares/not-found';
 import { RouterModule } from '@nestjs/core';
+import { UserStoriesHttpModule } from '@modules/user-stories/user-stories.http.module';
 
 @Module({
   imports: [
@@ -43,7 +44,14 @@ import { RouterModule } from '@nestjs/core';
         path: 'story-types/v1',
         module: StoryTypesHttpModule,
       }
-    ])  
+    ]),
+    UserStoriesHttpModule,
+    RouterModule.register([
+      {
+        path: 'user-stories/v1',
+        module: UserStoriesHttpModule
+      }
+    ])
   ],
 })
 

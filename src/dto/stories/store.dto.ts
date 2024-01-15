@@ -1,19 +1,21 @@
 export class StoreStoriesDto {
-  uid: string;
+    uid: string;
+    
+    caption: string;
   
-  caption: string;
-
-  media: string;
-
-  type: string;
-
-  background_color: string;
+    media: string;
   
-  text_color: any;
-
-  duration: any;
+    type: string;
   
-  created_at: any;
+    background_color: string;
+    
+    text_color: any;
   
-  updated_at: any;
+    duration: any;
+    
+    created_at: any;
+    
+    updated_at: any;
+  
+    user_id: any;
 }  

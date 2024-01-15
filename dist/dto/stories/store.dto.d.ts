@@ -8,4 +8,5 @@ export declare class StoreStoriesDto {
     duration: any;
     created_at: any;
     updated_at: any;
+    user_id: any;
 }

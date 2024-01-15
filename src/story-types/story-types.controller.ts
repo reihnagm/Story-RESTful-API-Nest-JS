@@ -6,7 +6,9 @@ import { UsersGuard } from '@auth/users.guard';
 import { StoreStoryTypesDto } from '@dto/story-types/store.dto';
 import { UpdateStoryTypesDto } from '@dto/story-types/update.dto';
 import { StoryTypes } from '@entities/story_types.entity';
+import { SkipThrottle } from '@nestjs/throttler';
 
+@SkipThrottle()
 @Controller()
 export class StoryTypesController {
   constructor(private storyTypesService: StoryTypesService) {}
@@ -31,32 +33,32 @@ export class StoryTypesController {
       new ResponseOk(res, 200, false, "", data);
     } catch(e) {
       throw new HttpException(e.message, 400);
-     }
+    }
   }
 
   @UseGuards(UsersGuard)
   @Get('single')
   async single(
-      @Req() _: Request, 
-      @Res() res: Response,
-      @Query('id') uid: string
+    @Req() _: Request, 
+    @Res() res: Response,
+    @Query('id') uid: string
   )  {
-      try {
-          const storyTypes = await this.storyTypesService.find(uid);
-          if(typeof storyTypes == 'undefined')
-              throw new HttpException('Data not found', 400);
+    try {
+      const storyTypes = await this.storyTypesService.find(uid);
+      if(typeof storyTypes == 'undefined')
+          throw new HttpException('Data not found', 400);
 
-          let data = {
-            id: storyTypes.uid,
-            type: storyTypes.type,
-            created_at: Utils.formatDate(storyTypes.created_at),
-            updated_at: Utils.formatDate(storyTypes.updated_at),
-          };
-          
-          new ResponseOk(res, 200, false, "", data);
-      } catch(_) {
-          throw new HttpException('Internal Server Error', 400);
-      }
+      let data = {
+        id: storyTypes.uid,
+        type: storyTypes.type,
+        created_at: Utils.formatDate(storyTypes.created_at),
+        updated_at: Utils.formatDate(storyTypes.updated_at),
+      };
+        
+      new ResponseOk(res, 200, false, "", data);
+    } catch(_) {
+      throw new HttpException('Internal Server Error', 400);
+    }
   }
 
   @UseGuards(UsersGuard)
@@ -82,10 +84,10 @@ export class StoryTypesController {
   @UseGuards(UsersGuard)
   @Put('update')
   async update(
-      @Body() data: UpdateStoryTypesDto, 
-      @Req() _: Request, 
-      @Res() res: Response,
-      @Query('id') uid: string, 
+    @Body() data: UpdateStoryTypesDto, 
+    @Req() _: Request, 
+    @Res() res: Response,
+    @Query('id') uid: string, 
   ) {
     try {
       let updateStoryTypes = new UpdateStoryTypesDto();
@@ -98,7 +100,7 @@ export class StoryTypesController {
       
       new ResponseOk(res, 200, false, "", null);
     } catch(e) {
-        throw new HttpException(e.message, 400);
+      throw new HttpException(e.message, 400);
     }
   }
  
@@ -121,6 +123,5 @@ export class StoryTypesController {
       throw new HttpException(e.message, 400);
     }
   }
-
 
 }

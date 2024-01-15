@@ -10,4 +10,4 @@ import { ConfigModule } from '@nestjs/config';
   exports: [TypeOrmModule],
 })
 
-export class AuthModule {}
+export class UsersModule {}

@@ -54,6 +54,13 @@ export class Stories {
   duration: any;
 
   @Column({
+    type: "varchar",
+    length: "36",
+    default: ''
+  })
+  user_id: any;
+
+  @Column({
     type: 'datetime',
     default: () => 'NOW()',
   })

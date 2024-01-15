@@ -14,4 +14,6 @@ export class UpdateStoriesDto {
   created_at: any;
   
   updated_at: any;
+
+  user_id: any;
 }

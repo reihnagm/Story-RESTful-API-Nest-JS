@@ -19,7 +19,7 @@ let UsersHttpModule = class UsersHttpModule {
 UsersHttpModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            users_module_1.AuthModule,
+            users_module_1.UsersModule,
             throttler_1.ThrottlerModule.forRoot({
                 ttl: 60,
                 limit: 5

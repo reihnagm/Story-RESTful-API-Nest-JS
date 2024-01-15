@@ -7,4 +7,5 @@ export declare class UpdateStoriesDto {
     duration: any;
     created_at: any;
     updated_at: any;
+    user_id: any;
 }

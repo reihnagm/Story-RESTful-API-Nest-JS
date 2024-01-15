@@ -13,6 +13,7 @@ const stories_controller_1 = require("../../stories/stories.controller");
 const common_1 = require("@nestjs/common");
 const stories_module_1 = require("./stories.module");
 const jwt_1 = require("@nestjs/jwt");
+const user_stories_service_1 = require("../../user-stories/user-stories.service");
 let StoriesHttpModule = class StoriesHttpModule {
 };
 StoriesHttpModule = __decorate([
@@ -25,7 +26,8 @@ StoriesHttpModule = __decorate([
         ],
         providers: [
             stories_service_1.StoriesService,
-            story_types_service_1.StoryTypesService
+            story_types_service_1.StoryTypesService,
+            user_stories_service_1.UserStoriesService
         ],
         controllers: [stories_controller_1.StoriesController],
     })

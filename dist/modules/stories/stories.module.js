@@ -9,9 +9,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.StoriesModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
+const config_1 = require("@nestjs/config");
 const stories_entity_1 = require("../../entities/stories.entity");
 const story_types_entity_1 = require("../../entities/story_types.entity");
-const config_1 = require("@nestjs/config");
+const user_stories_entity_1 = require("../../entities/user_stories.entity");
 let StoriesModule = class StoriesModule {
 };
 StoriesModule = __decorate([
@@ -19,7 +20,8 @@ StoriesModule = __decorate([
         imports: [
             typeorm_1.TypeOrmModule.forFeature([
                 stories_entity_1.Stories,
-                story_types_entity_1.StoryTypes
+                story_types_entity_1.StoryTypes,
+                user_stories_entity_1.UserStories
             ]),
             config_1.ConfigModule.forRoot()
         ],

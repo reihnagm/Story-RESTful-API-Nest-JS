@@ -9,6 +9,7 @@ import { StoriesController } from '@stories/stories.controller';
 import { Module } from '@nestjs/common';
 import { StoriesModule } from '@modules/stories/stories.module';
 import { JwtModule } from '@nestjs/jwt';
+import { UserStoriesService } from 'src/user-stories/user-stories.service';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { JwtModule } from '@nestjs/jwt';
   ],
   providers: [
     StoriesService, 
-    StoryTypesService
+    StoryTypesService,
+    UserStoriesService
   ],
   controllers: [StoriesController],
 })

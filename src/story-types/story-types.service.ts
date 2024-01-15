@@ -24,12 +24,12 @@ export class StoryTypesService {
     }
   }
 
-  async find(@Param('uid') uid: string) : Promise<StoryTypes> {
+  async find(@Param('id') id: string) : Promise<StoryTypes> {
     try {
       return await this.storyTypesRepository
       .createQueryBuilder("s")
       .select("s.id, s.uid, s.type")
-      .where("s.uid = :uid", {uid: uid})
+      .where("s.id = :id", {id: id})
       .getRawOne();
     } catch(e) {
       console.log(e);

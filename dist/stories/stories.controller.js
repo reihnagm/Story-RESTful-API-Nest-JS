@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.StoriesController = void 0;
 const common_1 = require("@nestjs/common");
 const uuid_1 = require("uuid");
-const store_dto_1 = require("../dto/stories/store.dto");
+const form_store_dto_1 = require("../dto/stories/form.store.dto");
 const update_dto_1 = require("../dto/stories/update.dto");
 const utils_1 = require("../utils/utils");
 const stories_service_1 = require("./stories.service");
@@ -24,10 +24,16 @@ const multer_1 = require("multer");
 const stories_entity_1 = require("../entities/stories.entity");
 const users_guard_1 = require("../users/users.guard");
 const story_types_service_1 = require("../story-types/story-types.service");
+const throttler_1 = require("@nestjs/throttler");
+const store_dto_1 = require("../dto/stories/store.dto");
+const user_stories_service_1 = require("../user-stories/user-stories.service");
+const form_store_dto_2 = require("../dto/user-stories/form.store.dto");
+const store_dto_2 = require("../dto/user-stories/store.dto");
 let StoriesController = class StoriesController {
-    constructor(storiesService, storyTypesService) {
+    constructor(storiesService, storyTypesService, userStoriesService) {
         this.storiesService = storiesService;
         this.storyTypesService = storyTypesService;
+        this.userStoriesService = userStoriesService;
     }
     async all(_, res) {
         try {
@@ -78,12 +84,38 @@ let StoriesController = class StoriesController {
     }
     async store(data, _, res) {
         try {
+            let formStories = new form_store_dto_1.FormStoreStoriesDto();
+            formStories.id = (0, uuid_1.v4)();
+            formStories.background_color = data.background_color;
+            formStories.text_color = data.text_color;
+            formStories.caption = data.caption;
+            formStories.media = data.media;
+            formStories.duration = data.duration;
+            formStories.type = data.type;
+            formStories.user_id = data.user_id;
             let stories = new store_dto_1.StoreStoriesDto();
-            stories.uid = (0, uuid_1.v4)();
-            stories.caption = data.caption;
-            stories.type = data.type;
-            stories.background_color = data.background_color;
-            this.validateStore(stories);
+            stories.uid = formStories.id;
+            stories.background_color = formStories.background_color;
+            stories.text_color = formStories.text_color;
+            stories.caption = formStories.caption;
+            stories.media = formStories.media;
+            stories.duration = formStories.duration;
+            stories.type = formStories.type;
+            stories.user_id = formStories.user_id;
+            this.validateStore(formStories);
+            var storyTypes = await this.storyTypesService.find(formStories.type);
+            if (typeof storyTypes == "undefined") {
+                throw new common_1.HttpException("story_types not found", 400);
+            }
+            let formUserStories = new form_store_dto_2.FormUserStoriesDto();
+            formUserStories.id = (0, uuid_1.v4)();
+            formUserStories.user_id = stories.user_id;
+            formUserStories.story_id = stories.uid;
+            let userStories = new store_dto_2.StoreUserStoriesDto();
+            userStories.uid = formUserStories.id;
+            userStories.user_id = formUserStories.user_id;
+            userStories.story_id = formUserStories.story_id;
+            await this.userStoriesService.store(userStories);
             await this.storiesService.store(stories);
             new utils_1.ResponseOk(res, 200, false, "", null);
         }
@@ -91,18 +123,18 @@ let StoriesController = class StoriesController {
             throw new common_1.HttpException(e.message, 400);
         }
     }
-    async update(data, _, res, uid) {
+    async update(data, _, res, id) {
         try {
             let updateStories = new update_dto_1.UpdateStoriesDto();
             updateStories.caption = data.caption;
             updateStories.type = data.type;
             updateStories.background_color = data.background_color;
-            this.validateUpdate(updateStories);
+            this.validateUpdate(id);
             let stories = new stories_entity_1.Stories();
-            stories.caption = stories.caption;
-            stories.type = stories.type;
-            stories.background_color = stories.background_color;
-            await this.storiesService.update(uid, stories);
+            stories.caption = updateStories.caption;
+            stories.type = updateStories.type;
+            stories.background_color = updateStories.background_color;
+            await this.storiesService.update(id, stories);
             new utils_1.ResponseOk(res, 200, false, "", null);
         }
         catch (e) {
@@ -125,23 +157,26 @@ let StoriesController = class StoriesController {
         }
     }
     validateStore(data) {
-        if (data.caption == '')
-            throw new Error(`caption is required`);
-        if (data.type == '')
-            throw new Error(`type is required`);
         if (data.background_color == '')
             throw new Error(`background_color is required`);
-    }
-    validateUpdate(data) {
+        if (data.text_color == '')
+            throw new Error(`text_color is required`);
         if (data.caption == '')
             throw new Error(`caption is required`);
+        if (data.media == '')
+            throw new Error(`media is required`);
+        if (data.duration == '')
+            throw new Error(`duration is required`);
         if (data.type == '')
             throw new Error(`type is required`);
-        if (data.background_color == '')
-            throw new Error(`background_color is required`);
+        if (data.user_id == '')
+            throw new Error(`user_id is required`);
     }
-    uploadFile(file) {
+    validateUpdate(id) {
+        if (id == '')
+            throw new Error(`id is required`);
     }
+    uploadFile(file) { }
 };
 __decorate([
     (0, common_1.UseGuards)(users_guard_1.UsersGuard),
@@ -169,7 +204,7 @@ __decorate([
     __param(1, (0, common_1.Req)()),
     __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [store_dto_1.StoreStoriesDto, Object, Object]),
+    __metadata("design:paramtypes", [form_store_dto_1.FormStoreStoriesDto, Object, Object]),
     __metadata("design:returntype", Promise)
 ], StoriesController.prototype, "store", null);
 __decorate([
@@ -207,9 +242,11 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], StoriesController.prototype, "uploadFile", null);
 StoriesController = __decorate([
+    (0, throttler_1.SkipThrottle)(),
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [stories_service_1.StoriesService,
-        story_types_service_1.StoryTypesService])
+        story_types_service_1.StoryTypesService,
+        user_stories_service_1.UserStoriesService])
 ], StoriesController);
 exports.StoriesController = StoriesController;
 //# sourceMappingURL=stories.controller.js.map
