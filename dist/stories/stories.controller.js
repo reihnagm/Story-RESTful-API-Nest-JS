@@ -207,7 +207,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], StoriesController.prototype, "uploadFile", null);
 StoriesController = __decorate([
-    (0, common_1.Controller)('stories/v1'),
+    (0, common_1.Controller)(),
     __metadata("design:paramtypes", [stories_service_1.StoriesService,
         story_types_service_1.StoryTypesService])
 ], StoriesController);

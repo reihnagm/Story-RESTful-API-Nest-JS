@@ -6,6 +6,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { NotFoundMiddleware } from '@middlewares/not-found';
+import { RouterModule } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -23,8 +24,26 @@ import { NotFoundMiddleware } from '@middlewares/not-found';
       synchronize: true,
     }),
     UsersHttpModule,
+    RouterModule.register([
+      {
+        path: 'users/v1',
+        module: UsersHttpModule,
+      }
+    ]),
     StoriesHttpModule,
+    RouterModule.register([
+      {
+        path: 'stories/v1',
+        module: StoriesHttpModule,
+      },
+    ]),
     StoryTypesHttpModule,
+    RouterModule.register([
+      {
+        path: 'story-types/v1',
+        module: StoryTypesHttpModule,
+      }
+    ])  
   ],
 })
 

@@ -10,7 +10,7 @@ import { Stories } from '@entities/stories.entity';
 import { UsersGuard } from '@auth/users.guard';
 import { StoryTypesService } from '@story-types/story-types.service';
 
-@Controller('stories/v1')
+@Controller()
 export class StoriesController {
     constructor(
         private storiesService: StoriesService,

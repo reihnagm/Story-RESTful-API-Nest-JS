@@ -1,38 +1,36 @@
 import { Injectable, NestMiddleware } from "@nestjs/common";
-import { Request } from 'express';
-
-
-// import { RouteParamMetadata } from "@nestjs/common";
+import { Request, Router } from 'express';
 
 @Injectable()
 export class NotFoundMiddleware implements NestMiddleware {
-  // constructor(private readonly routerExplorer: RouteParamMetadata) {}
-  
+
   use(req: Request, res: any, next: () => void) {
-    // var routes: Routes;
-    // const requestedUrl = req.baseUrl
- 
-    next()
+    const requestedUrl = req.baseUrl
 
-    // const exists = routes.some((route: { path: any; }) => route.path === requestedPath);
+    const router = req.app._router as Router;
+   
+    var allPath = router.stack
+    .map(layer => {
+      if(layer.route) {
+        const path = layer.route?.path;
+        // METHOD
+        // const method = layer.route?.stack[0].method;
+        return `${path}`
+      }
+    }).filter(item => item !== undefined)
 
-    // if (exists) {
-    //   next();
-    // } else {
-    //   res.status(404).json({ message: 'Route not found' });
-    // }
+    var checkRoute = allPath.includes(requestedUrl)
+
+    if(checkRoute) {
+      next()
+    } else {
+      res
+      .status(404)
+      .json({
+        status: 404,
+        error: true,
+        message: 'Not found',
+      });
+    }
   }
 }
-
-// import { RoutesMapper } from "@nestjs/core/middleware/routes-mapper";
-
-// @Injectable()
-// export class RoutesMapperService {
-//   constructor(private readonly routerExplorerService: RoutesMapper) {}
-
-//   getAllPaths(path: string) {
-//     const routes = this.routerExplorerService.mapRouteToRouteInfo(path);
-
-//     return routes;
-//   }
-// }

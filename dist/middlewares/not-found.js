@@ -10,7 +10,28 @@ exports.NotFoundMiddleware = void 0;
 const common_1 = require("@nestjs/common");
 let NotFoundMiddleware = class NotFoundMiddleware {
     use(req, res, next) {
-        next();
+        const requestedUrl = req.baseUrl;
+        const router = req.app._router;
+        var allPath = router.stack
+            .map(layer => {
+            if (layer.route) {
+                const path = layer.route?.path;
+                return `${path}`;
+            }
+        }).filter(item => item !== undefined);
+        var checkRoute = allPath.includes(requestedUrl);
+        if (checkRoute) {
+            next();
+        }
+        else {
+            res
+                .status(404)
+                .json({
+                status: 404,
+                error: true,
+                message: 'Not found',
+            });
+        }
     }
 };
 NotFoundMiddleware = __decorate([

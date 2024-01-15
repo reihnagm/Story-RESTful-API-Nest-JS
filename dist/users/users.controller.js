@@ -121,7 +121,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "register", null);
 UsersController = __decorate([
-    (0, common_1.Controller)('auth/v1'),
+    (0, common_1.Controller)(),
     __metadata("design:paramtypes", [users_service_1.UsersService,
         jwt_1.JwtService])
 ], UsersController);

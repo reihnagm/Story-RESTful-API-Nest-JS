@@ -8,7 +8,7 @@ import { LoginDto } from '@dto/users/login-dto';
 import { UsersService } from '@auth/users.service';
 import { JwtService } from '@nestjs/jwt';
 
-@Controller('auth/v1')
+@Controller()
 export class UsersController {
     constructor(
         private usersService: UsersService,

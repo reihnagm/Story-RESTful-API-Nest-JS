@@ -152,7 +152,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], StoryTypesController.prototype, "delete", null);
 StoryTypesController = __decorate([
-    (0, common_1.Controller)('story-types/v1'),
+    (0, common_1.Controller)(),
     __metadata("design:paramtypes", [story_types_service_1.StoryTypesService])
 ], StoryTypesController);
 exports.StoryTypesController = StoryTypesController;

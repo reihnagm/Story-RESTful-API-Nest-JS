@@ -3,12 +3,11 @@ import { v4 } from 'uuid';
 import { Utils } from '@utils/utils';
 import { StoryTypesService } from '@story-types/story-types.service';
 import { UsersGuard } from '@auth/users.guard';
-import { SkipThrottle } from '@nestjs/throttler';
 import { StoreStoryTypesDto } from '@dto/story-types/store.dto';
 import { UpdateStoryTypesDto } from '@dto/story-types/update.dto';
 import { StoryTypes } from '@entities/story_types.entity';
 
-@Controller('story-types/v1')
+@Controller()
 export class StoryTypesController {
   constructor(private storyTypesService: StoryTypesService) {}
 

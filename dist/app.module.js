@@ -15,6 +15,7 @@ const serve_static_1 = require("@nestjs/serve-static");
 const typeorm_1 = require("@nestjs/typeorm");
 const path_1 = require("path");
 const not_found_1 = require("./middlewares/not-found");
+const core_1 = require("@nestjs/core");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer.apply(not_found_1.NotFoundMiddleware).forRoutes('*');
@@ -37,8 +38,26 @@ AppModule = __decorate([
                 synchronize: true,
             }),
             users_http_module_1.UsersHttpModule,
+            core_1.RouterModule.register([
+                {
+                    path: 'users/v1',
+                    module: users_http_module_1.UsersHttpModule,
+                }
+            ]),
             stories_http_module_1.StoriesHttpModule,
+            core_1.RouterModule.register([
+                {
+                    path: 'stories/v1',
+                    module: stories_http_module_1.StoriesHttpModule,
+                },
+            ]),
             story_types_http_module_1.StoryTypesHttpModule,
+            core_1.RouterModule.register([
+                {
+                    path: 'story-types/v1',
+                    module: story_types_http_module_1.StoryTypesHttpModule,
+                }
+            ])
         ],
     })
 ], AppModule);
