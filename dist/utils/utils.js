@@ -1,8 +1,44 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Utils = void 0;
+exports.Utils = exports.ResponseOk = void 0;
 const moment_1 = require("moment");
 const path_1 = require("path");
+class ResponseOk {
+    constructor(response, status, error, message, data) {
+        this.response = response;
+        this.status = status;
+        this.error = error;
+        this.message = message;
+        this.data = data;
+        if (Array.isArray(data)) {
+            let resultPrint = {
+                status: status || 200,
+                error: error || false,
+                message: message || 'Ok',
+                data: data ? data : []
+            };
+            return response.status(resultPrint.status).json(resultPrint);
+        }
+        else if (data == null) {
+            let resultPrint = {
+                status: status || 200,
+                error: error || false,
+                message: message || 'Ok',
+            };
+            return response.status(resultPrint.status).json(resultPrint);
+        }
+        else {
+            let resultPrint = {
+                status: status || 200,
+                error: error || false,
+                message: message || 'Ok',
+                data: data
+            };
+            return response.status(resultPrint.status).json(resultPrint);
+        }
+    }
+}
+exports.ResponseOk = ResponseOk;
 class Utils {
     static response(response, status, error, message, data) {
         if (Array.isArray(data)) {

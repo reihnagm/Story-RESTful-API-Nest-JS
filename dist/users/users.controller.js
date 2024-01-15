@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a, _b, _c, _d, _e;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
@@ -35,7 +34,7 @@ let UsersController = class UsersController {
             auth.password = data.password;
             let errors = await (0, class_validator_1.validate)(auth);
             if (errors.length > 0) {
-                return utils_1.Utils.response(res, 400, true, "", errors[0].constraints);
+                throw new common_1.HttpException(errors[0].constraints, 400);
             }
             else {
                 let login = await this.usersService.login(auth);
@@ -48,7 +47,7 @@ let UsersController = class UsersController {
                         const payload = {
                             sub: login.uid
                         };
-                        return utils_1.Utils.response(res, 200, false, "", {
+                        new utils_1.ResponseOk(res, 200, false, "", {
                             token: await this.jwtService.signAsync(payload),
                             user: {
                                 id: login.uid,
@@ -85,7 +84,7 @@ let UsersController = class UsersController {
                 let isUserExists = await this.usersService.isUserExists(auth);
                 if (isUserExists == null) {
                     await this.usersService.register(auth);
-                    return utils_1.Utils.response(res, 200, false, "", {
+                    new utils_1.ResponseOk(res, 200, false, "", {
                         id: auth.uid,
                         email: auth.email,
                         phone: auth.phone,
@@ -109,7 +108,7 @@ __decorate([
     __param(1, (0, common_1.Res)()),
     __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_b = typeof common_1.Request !== "undefined" && common_1.Request) === "function" ? _b : Object, typeof (_c = typeof common_1.Response !== "undefined" && common_1.Response) === "function" ? _c : Object, login_dto_1.LoginDto]),
+    __metadata("design:paramtypes", [Object, Object, login_dto_1.LoginDto]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "login", null);
 __decorate([
@@ -118,12 +117,13 @@ __decorate([
     __param(1, (0, common_1.Res)()),
     __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_d = typeof common_1.Request !== "undefined" && common_1.Request) === "function" ? _d : Object, typeof (_e = typeof common_1.Response !== "undefined" && common_1.Response) === "function" ? _e : Object, register_dto_1.RegisterDto]),
+    __metadata("design:paramtypes", [Object, Object, register_dto_1.RegisterDto]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "register", null);
 UsersController = __decorate([
     (0, common_1.Controller)(),
-    __metadata("design:paramtypes", [users_service_1.UsersService, typeof (_a = typeof jwt_1.JwtService !== "undefined" && jwt_1.JwtService) === "function" ? _a : Object])
+    __metadata("design:paramtypes", [users_service_1.UsersService,
+        jwt_1.JwtService])
 ], UsersController);
 exports.UsersController = UsersController;
 //# sourceMappingURL=users.controller.js.map

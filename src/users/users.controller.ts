@@ -2,7 +2,7 @@ import { Controller, Post, Req, Res, Response, Request, Body, HttpException } fr
 import { validate } from 'class-validator';
 import * as bcrypt from 'bcrypt';
 import { v4 } from 'uuid';
-import { Utils } from '@utils/utils';
+import { ResponseOk } from '@utils/utils';
 import { RegisterDto } from '@dto/users/register-dto';
 import { LoginDto } from '@dto/users/login-dto';
 import { UsersService } from '@auth/users.service';
@@ -29,18 +29,21 @@ export class UsersController {
 
             let errors = await validate(auth);
             if(errors.length > 0) {
-                return Utils.response(res, 400, true, "", errors[0].constraints);
+                throw new HttpException(errors[0].constraints, 400);
             } else {
                 let login = await this.usersService.login(auth);
                 if(typeof login == "undefined") {
                     throw new HttpException('Phone / Password is incorrect', 400);
                 } else {
-                    let isMatch = await bcrypt.compare(auth.password, login.password);
+                    let isMatch = await bcrypt.compare(
+                        auth.password, 
+                        login.password
+                    );
                     if(isMatch) {
                         const payload = { 
                             sub: login.uid
                         };
-                        return Utils.response(res, 200, false, "", {
+                        new ResponseOk(res, 200, false, "", {
                             token: await this.jwtService.signAsync(payload),
                             user: {
                                 id: login.uid,
@@ -49,7 +52,7 @@ export class UsersController {
                                 created_at: login.created_at,
                                 updated_at: login.updated_at
                             },
-                        });
+                        })
                     } else {
                         throw new HttpException('Phone / Password is incorrect', 400);
                     }
@@ -80,7 +83,7 @@ export class UsersController {
                 let isUserExists = await this.usersService.isUserExists(auth);
                 if(isUserExists == null) {
                     await this.usersService.register(auth);
-                    return Utils.response(res, 200, false, "", {
+                    new ResponseOk(res, 200, false, "", {
                         id: auth.uid,
                         email: auth.email,
                         phone: auth.phone,

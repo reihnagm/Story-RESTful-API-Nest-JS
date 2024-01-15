@@ -1,4 +1,3 @@
-import { Response, Request } from '@nestjs/common';
 import { RegisterDto } from '@dto/users/register-dto';
 import { LoginDto } from '@dto/users/login-dto';
 import { UsersService } from '@auth/users.service';

@@ -2,7 +2,7 @@ import { Controller, Get, Post, Req, Res, Response, Request, Body, UploadedFile,
 import { v4 } from 'uuid';
 import { StoreStoriesDto } from '@dto/stories/store.dto';
 import { UpdateStoriesDto } from '@dto/stories/update.dto';
-import { Utils } from '@utils/utils';
+import { ResponseOk, Utils } from '@utils/utils';
 import { StoriesService } from '@stories/stories.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -40,7 +40,7 @@ export class StoriesController {
                     updated_at: Utils.formatDate(stories[i].updated_at),
                 });
             }
-            Utils.response(res, 200, false, "", data);
+            new ResponseOk(res, 200, false, "", data);
         } catch(_) {
             throw new HttpException('Internal Server Error', 400);
         }
@@ -72,7 +72,7 @@ export class StoriesController {
                 updated_at: Utils.formatDate(stories.updated_at)
             };
             
-            Utils.response(res, 200, false, "", data);
+            new ResponseOk(res, 200, false, "", data);
         } catch(_) {
             throw new HttpException('Internal Server Error', 400);
         }
@@ -96,8 +96,7 @@ export class StoriesController {
 
             await this.storiesService.store(stories);
 
-            Utils.response(res, 200, false, "", null);
-        
+            new ResponseOk(res, 200, false, "", null);
         } catch(e) {
             throw new HttpException(e.message, 400);
         }
@@ -126,7 +125,7 @@ export class StoriesController {
 
             await this.storiesService.update(uid, stories);
             
-            Utils.response(res, 200, false, "", null);
+            new ResponseOk(res, 200, false, "", null);
         } catch(e) {
             throw new HttpException(e.message, 400);
         }
@@ -145,7 +144,7 @@ export class StoriesController {
                 throw new HttpException('Data not found', 400);
             } else {
                 await this.storiesService.destroy(uid);
-                Utils.response(res, 200, false, "", null);
+                new ResponseOk(res, 200, false, "", null);
             }
         } catch(e) {
             throw new HttpException(e.message, 400);

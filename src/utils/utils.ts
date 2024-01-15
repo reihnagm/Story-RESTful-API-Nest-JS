@@ -1,6 +1,43 @@
 import moment from 'moment';
 import { extname } from 'path';
 
+export class ResponseOk {
+    constructor(
+        private response: any,
+        private status: number,
+        private error: boolean,
+        private message: string,
+        private data: any
+    ) {
+
+        if(Array.isArray(data)) {
+            let resultPrint = {
+                status: status || 200,
+                error: error || false,
+                message: message || 'Ok',
+                data: data ? data : []
+            }
+            return response.status(resultPrint.status).json(resultPrint)
+        } else if(data == null) {
+            let resultPrint = {
+                status: status || 200,
+                error: error || false,
+                message: message || 'Ok',  
+            }
+            return response.status(resultPrint.status).json(resultPrint)
+        } else {
+            let resultPrint = {
+                status: status || 200,
+                error: error || false,
+                message: message || 'Ok',
+                data: data
+            }
+            return response.status(resultPrint.status).json(resultPrint)
+        }
+
+    }
+}
+
 export class Utils {
     static response(response: any, status: number, error: boolean, message: string, data: any) {
         if(Array.isArray(data)) {

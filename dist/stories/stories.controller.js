@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StoriesController = void 0;
 const common_1 = require("@nestjs/common");
@@ -48,7 +47,7 @@ let StoriesController = class StoriesController {
                     updated_at: utils_1.Utils.formatDate(stories[i].updated_at),
                 });
             }
-            utils_1.Utils.response(res, 200, false, "", data);
+            new utils_1.ResponseOk(res, 200, false, "", data);
         }
         catch (_) {
             throw new common_1.HttpException('Internal Server Error', 400);
@@ -71,7 +70,7 @@ let StoriesController = class StoriesController {
                 created_at: utils_1.Utils.formatDate(stories.created_at),
                 updated_at: utils_1.Utils.formatDate(stories.updated_at)
             };
-            utils_1.Utils.response(res, 200, false, "", data);
+            new utils_1.ResponseOk(res, 200, false, "", data);
         }
         catch (_) {
             throw new common_1.HttpException('Internal Server Error', 400);
@@ -86,7 +85,7 @@ let StoriesController = class StoriesController {
             stories.background_color = data.background_color;
             this.validateStore(stories);
             await this.storiesService.store(stories);
-            utils_1.Utils.response(res, 200, false, "", null);
+            new utils_1.ResponseOk(res, 200, false, "", null);
         }
         catch (e) {
             throw new common_1.HttpException(e.message, 400);
@@ -104,7 +103,7 @@ let StoriesController = class StoriesController {
             stories.type = stories.type;
             stories.background_color = stories.background_color;
             await this.storiesService.update(uid, stories);
-            utils_1.Utils.response(res, 200, false, "", null);
+            new utils_1.ResponseOk(res, 200, false, "", null);
         }
         catch (e) {
             throw new common_1.HttpException(e.message, 400);
@@ -118,7 +117,7 @@ let StoriesController = class StoriesController {
             }
             else {
                 await this.storiesService.destroy(uid);
-                utils_1.Utils.response(res, 200, false, "", null);
+                new utils_1.ResponseOk(res, 200, false, "", null);
             }
         }
         catch (e) {
@@ -150,7 +149,7 @@ __decorate([
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_a = typeof common_1.Request !== "undefined" && common_1.Request) === "function" ? _a : Object, typeof (_b = typeof common_1.Response !== "undefined" && common_1.Response) === "function" ? _b : Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], StoriesController.prototype, "all", null);
 __decorate([
@@ -160,7 +159,7 @@ __decorate([
     __param(1, (0, common_1.Res)()),
     __param(2, (0, common_1.Query)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_c = typeof common_1.Request !== "undefined" && common_1.Request) === "function" ? _c : Object, typeof (_d = typeof common_1.Response !== "undefined" && common_1.Response) === "function" ? _d : Object, String]),
+    __metadata("design:paramtypes", [Object, Object, String]),
     __metadata("design:returntype", Promise)
 ], StoriesController.prototype, "single", null);
 __decorate([
@@ -170,7 +169,7 @@ __decorate([
     __param(1, (0, common_1.Req)()),
     __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [store_dto_1.StoreStoriesDto, typeof (_e = typeof common_1.Request !== "undefined" && common_1.Request) === "function" ? _e : Object, typeof (_f = typeof common_1.Response !== "undefined" && common_1.Response) === "function" ? _f : Object]),
+    __metadata("design:paramtypes", [store_dto_1.StoreStoriesDto, Object, Object]),
     __metadata("design:returntype", Promise)
 ], StoriesController.prototype, "store", null);
 __decorate([
@@ -181,7 +180,7 @@ __decorate([
     __param(2, (0, common_1.Res)()),
     __param(3, (0, common_1.Query)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [update_dto_1.UpdateStoriesDto, typeof (_g = typeof common_1.Request !== "undefined" && common_1.Request) === "function" ? _g : Object, typeof (_h = typeof common_1.Response !== "undefined" && common_1.Response) === "function" ? _h : Object, String]),
+    __metadata("design:paramtypes", [update_dto_1.UpdateStoriesDto, Object, Object, String]),
     __metadata("design:returntype", Promise)
 ], StoriesController.prototype, "update", null);
 __decorate([
@@ -191,7 +190,7 @@ __decorate([
     __param(1, (0, common_1.Res)()),
     __param(2, (0, common_1.Query)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_j = typeof common_1.Request !== "undefined" && common_1.Request) === "function" ? _j : Object, typeof (_k = typeof common_1.Response !== "undefined" && common_1.Response) === "function" ? _k : Object, String]),
+    __metadata("design:paramtypes", [Object, Object, String]),
     __metadata("design:returntype", Promise)
 ], StoriesController.prototype, "delete", null);
 __decorate([
@@ -204,7 +203,7 @@ __decorate([
     })),
     __param(0, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_m = typeof Express !== "undefined" && (_l = Express.Multer) !== void 0 && _l.File) === "function" ? _m : Object]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], StoriesController.prototype, "uploadFile", null);
 StoriesController = __decorate([

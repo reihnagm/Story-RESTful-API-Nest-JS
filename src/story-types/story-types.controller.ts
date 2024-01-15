@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Req, Res, Response, Request, Body,  Delete, Query, Put, UseGuards, HttpException } from '@nestjs/common';
 import { v4 } from 'uuid';
-import { Utils } from '@utils/utils';
+import { ResponseOk, Utils } from '@utils/utils';
 import { StoryTypesService } from '@story-types/story-types.service';
 import { UsersGuard } from '@auth/users.guard';
 import { StoreStoryTypesDto } from '@dto/story-types/store.dto';
@@ -28,7 +28,7 @@ export class StoryTypesController {
           updated_at: Utils.formatDate(storyTypes[i].updated_at),
         });
       }
-      return Utils.response(res, 200, false, "", data);
+      new ResponseOk(res, 200, false, "", data);
     } catch(e) {
       throw new HttpException(e.message, 400);
      }
@@ -53,7 +53,7 @@ export class StoryTypesController {
             updated_at: Utils.formatDate(storyTypes.updated_at),
           };
           
-          Utils.response(res, 200, false, "", data);
+          new ResponseOk(res, 200, false, "", data);
       } catch(_) {
           throw new HttpException('Internal Server Error', 400);
       }
@@ -73,7 +73,7 @@ export class StoryTypesController {
   
       await this.storyTypesService.store(storyTypes);
 
-      Utils.response(res, 200, false, "", null);
+      new ResponseOk(res, 200, false, "", null);
     } catch(e) {
       throw new HttpException(e.message, 400);
     }
@@ -96,7 +96,7 @@ export class StoryTypesController {
 
       await this.storyTypesService.update(uid, storyTypes);
       
-      Utils.response(res, 200, false, "", null);
+      new ResponseOk(res, 200, false, "", null);
     } catch(e) {
         throw new HttpException(e.message, 400);
     }
@@ -115,7 +115,7 @@ export class StoryTypesController {
         throw new HttpException('Data not found', 400);
       } else {
         await this.storyTypesService.destroy(uid);
-        Utils.response(res, 200, false, "", null);
+        new ResponseOk(res, 200, false, "", null);
       }
     } catch(e) {
       throw new HttpException(e.message, 400);
