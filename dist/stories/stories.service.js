@@ -35,21 +35,21 @@ let StoriesService = class StoriesService {
             console.log(e);
         }
     }
-    async find(uid) {
+    async find(id) {
         try {
             return await this.storiesRepository
                 .createQueryBuilder("s")
                 .select("s.uid, s.caption, s.media, s.background_color, s.text_color, s.type, s.created_at, s.updated_at")
-                .where("uid = :uid", { uid: uid })
+                .where("uid = :uid", { uid: id })
                 .getRawOne();
         }
         catch (e) {
             console.log(e);
         }
     }
-    async update(uid, data) {
+    async update(id, data) {
         try {
-            return await this.storiesRepository.update({ uid: uid }, {
+            return await this.storiesRepository.update({ uid: id }, {
                 caption: data.caption
             });
         }
@@ -65,10 +65,10 @@ let StoriesService = class StoriesService {
             console.log(e);
         }
     }
-    async destroy(uid) {
+    async destroy(id) {
         try {
             return await this.storiesRepository.delete({
-                uid: uid
+                uid: id
             });
         }
         catch (e) {
@@ -77,13 +77,13 @@ let StoriesService = class StoriesService {
     }
 };
 __decorate([
-    __param(0, (0, common_2.Param)('uid')),
+    __param(0, (0, common_2.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], StoriesService.prototype, "find", null);
 __decorate([
-    __param(0, (0, common_2.Param)('uid')),
+    __param(0, (0, common_2.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, stories_entity_1.Stories]),
     __metadata("design:returntype", Promise)
@@ -95,7 +95,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], StoriesService.prototype, "store", null);
 __decorate([
-    __param(0, (0, common_2.Param)('uid')),
+    __param(0, (0, common_2.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)

@@ -16,8 +16,8 @@ export class StoryTypesService {
     try {
       return await this.storyTypesRepository
       .createQueryBuilder("s")
-      .select("s.uid, s.type, s.created_at, s.updated_At")
-      .orderBy("s.id", "DESC")
+      .select("s.id, s.type, s.created_at, s.updated_At")
+      .orderBy("s.id", "ASC")
       .getRawMany();
     } catch(e) {
       console.log(e);
@@ -28,7 +28,7 @@ export class StoryTypesService {
     try {
       return await this.storyTypesRepository
       .createQueryBuilder("s")
-      .select("s.id, s.uid, s.type")
+      .select("s.id, s.type, s.created_at, s.updated_at")
       .where("s.id = :id", {id: id})
       .getRawOne();
     } catch(e) {
@@ -36,9 +36,9 @@ export class StoryTypesService {
     }
   }
 
-  async update(@Param('uid') uid: any, data : StoryTypes) {
+  async update(@Param('id') id: any, data : StoryTypes) {
     try { 
-      return await this.storyTypesRepository.update({uid: uid}, {
+      return await this.storyTypesRepository.update({id: id}, {
         type: data.type
       });
     } catch(e) {
@@ -46,7 +46,7 @@ export class StoryTypesService {
     }
   }
 
-  async store(@Param('uid') data: StoreStoryTypesDto) {
+  async store(@Param('id') data: StoreStoryTypesDto) {
     try { 
       return await this.storyTypesRepository.save(data);
     } catch(e) {
@@ -54,10 +54,10 @@ export class StoryTypesService {
     }
   }
 
-  async destroy(@Param('uid') uid: any) {
+  async destroy(@Param('id') id: any) {
     try {
       return await this.storyTypesRepository.delete({ 
-        uid: uid
+        id: id
       });
     } catch(e) {
       console.log(e);

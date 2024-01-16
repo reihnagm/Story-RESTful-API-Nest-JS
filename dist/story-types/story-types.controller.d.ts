@@ -7,6 +7,6 @@ export declare class StoryTypesController {
     all(_: Request, res: Response): Promise<void>;
     single(_: Request, res: Response, uid: string): Promise<void>;
     store(data: StoreStoryTypesDto, _: Request, res: Response): Promise<void>;
-    update(data: UpdateStoryTypesDto, _: Request, res: Response, uid: string): Promise<void>;
+    update(data: UpdateStoryTypesDto, _: Request, res: Response, id: string): Promise<void>;
     delete(_: Request, res: Response, uid: string): Promise<void>;
 }

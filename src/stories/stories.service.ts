@@ -24,21 +24,21 @@ export class StoriesService {
     }
   }
 
-  async find(@Param('uid') uid: string) : Promise<Stories> {
+  async find(@Param('id') id: string) : Promise<Stories> {
     try {
       return await this.storiesRepository
       .createQueryBuilder("s")
       .select("s.uid, s.caption, s.media, s.background_color, s.text_color, s.type, s.created_at, s.updated_at")
-      .where("uid = :uid", { uid: uid })
+      .where("uid = :uid", { uid: id })
       .getRawOne()
     } catch(e) {
       console.log(e);
     }
   }
   
-  async update(@Param('uid') uid: any, data : Stories) {
+  async update(@Param('id') id: any, data : Stories) {
     try { 
-      return await this.storiesRepository.update({uid: uid}, {
+      return await this.storiesRepository.update({uid: id}, {
         caption: data.caption
       });
     } catch(e) {
@@ -54,10 +54,10 @@ export class StoriesService {
     }
   }
 
-  async destroy(@Param('uid') uid: any) {
+  async destroy(@Param('id') id: any) {
     try {
       return await this.storiesRepository.delete({ 
-        uid: uid
+        uid: id
       });
     } catch(e) {
       console.log(e);

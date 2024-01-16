@@ -33,7 +33,7 @@ let StoryTypesController = class StoryTypesController {
             for (let i = 0; i < storyTypes.length; i++) {
                 var storyType = storyTypes[i];
                 data.push({
-                    id: storyType.uid,
+                    id: storyType.id,
                     type: storyType.type,
                     created_at: utils_1.Utils.formatDateWithSeconds(storyType.created_at),
                     updated_at: utils_1.Utils.formatDateWithSeconds(storyType.updated_at),
@@ -48,8 +48,8 @@ let StoryTypesController = class StoryTypesController {
     async single(_, res, uid) {
         try {
             const storyTypes = await this.storyTypesService.find(uid);
-            if (typeof storyTypes == 'undefined')
-                throw new common_1.HttpException('Data not found', 400);
+            if (typeof storyTypes == "undefined")
+                throw new common_1.HttpException("Data not found", 400);
             let data = {
                 id: storyTypes.uid,
                 type: storyTypes.type,
@@ -58,8 +58,8 @@ let StoryTypesController = class StoryTypesController {
             };
             new utils_1.ResponseOk(res, 200, false, "", data);
         }
-        catch (_) {
-            throw new common_1.HttpException('Internal Server Error', 400);
+        catch (e) {
+            throw new common_1.HttpException(e.message, 400);
         }
     }
     async store(data, _, res) {
@@ -74,13 +74,16 @@ let StoryTypesController = class StoryTypesController {
             throw new common_1.HttpException(e.message, 400);
         }
     }
-    async update(data, _, res, uid) {
+    async update(data, _, res, id) {
         try {
+            let checkStoryTypes = await this.storyTypesService.find(id);
+            if (typeof checkStoryTypes == "undefined")
+                throw new common_1.HttpException("Data not found", 400);
             let updateStoryTypes = new update_dto_1.UpdateStoryTypesDto();
             updateStoryTypes.type = data.type;
             let storyTypes = new story_types_entity_1.StoryTypes();
             storyTypes.type = updateStoryTypes.type;
-            await this.storyTypesService.update(uid, storyTypes);
+            await this.storyTypesService.update(id, storyTypes);
             new utils_1.ResponseOk(res, 200, false, "", null);
         }
         catch (e) {
@@ -90,13 +93,10 @@ let StoryTypesController = class StoryTypesController {
     async delete(_, res, uid) {
         try {
             const storyTypes = await this.storyTypesService.find(uid);
-            if (typeof storyTypes == "undefined") {
-                throw new common_1.HttpException('Data not found', 400);
-            }
-            else {
-                await this.storyTypesService.destroy(uid);
-                new utils_1.ResponseOk(res, 200, false, "", null);
-            }
+            if (typeof storyTypes == "undefined")
+                throw new common_1.HttpException("Data not found", 400);
+            await this.storyTypesService.destroy(uid);
+            new utils_1.ResponseOk(res, 200, false, "", null);
         }
         catch (e) {
             throw new common_1.HttpException(e.message, 400);

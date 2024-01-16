@@ -27,8 +27,8 @@ let StoryTypesService = class StoryTypesService {
         try {
             return await this.storyTypesRepository
                 .createQueryBuilder("s")
-                .select("s.uid, s.type, s.created_at, s.updated_At")
-                .orderBy("s.id", "DESC")
+                .select("s.id, s.type, s.created_at, s.updated_At")
+                .orderBy("s.id", "ASC")
                 .getRawMany();
         }
         catch (e) {
@@ -39,7 +39,7 @@ let StoryTypesService = class StoryTypesService {
         try {
             return await this.storyTypesRepository
                 .createQueryBuilder("s")
-                .select("s.id, s.uid, s.type")
+                .select("s.id, s.type, s.created_at, s.updated_at")
                 .where("s.id = :id", { id: id })
                 .getRawOne();
         }
@@ -47,9 +47,9 @@ let StoryTypesService = class StoryTypesService {
             console.log(e);
         }
     }
-    async update(uid, data) {
+    async update(id, data) {
         try {
-            return await this.storyTypesRepository.update({ uid: uid }, {
+            return await this.storyTypesRepository.update({ id: id }, {
                 type: data.type
             });
         }
@@ -65,10 +65,10 @@ let StoryTypesService = class StoryTypesService {
             console.log(e);
         }
     }
-    async destroy(uid) {
+    async destroy(id) {
         try {
             return await this.storyTypesRepository.delete({
-                uid: uid
+                id: id
             });
         }
         catch (e) {
@@ -83,19 +83,19 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], StoryTypesService.prototype, "find", null);
 __decorate([
-    __param(0, (0, common_2.Param)('uid')),
+    __param(0, (0, common_2.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, story_types_entity_1.StoryTypes]),
     __metadata("design:returntype", Promise)
 ], StoryTypesService.prototype, "update", null);
 __decorate([
-    __param(0, (0, common_2.Param)('uid')),
+    __param(0, (0, common_2.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [store_dto_1.StoreStoryTypesDto]),
     __metadata("design:returntype", Promise)
 ], StoryTypesService.prototype, "store", null);
 __decorate([
-    __param(0, (0, common_2.Param)('uid')),
+    __param(0, (0, common_2.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
