@@ -129,8 +129,9 @@ export class StoriesController {
             this.validateStore(formStories);
 
             var storyTypes = await this.storyTypesService.find(formStories.type);
+
             if(typeof storyTypes == "undefined") {
-                throw new HttpException("story_types not found", 400);
+                throw new HttpException("Data not found", 400);
             }
 
             let formUserStories = new FormUserStoriesDto();
@@ -162,17 +163,18 @@ export class StoriesController {
         @Query('id') id: string, 
     ) {
         try {
+            const checkStories = await this.storiesService.find(id);
+            
+            if(typeof checkStories == "undefined")
+                throw new HttpException('Data not found', 400);
+
             let updateStories = new UpdateStoriesDto();
             updateStories.caption = data.caption;
-            updateStories.type = data.type;
-            updateStories.background_color = data.background_color;
 
             this.validateUpdate(id);
 
             let stories = new Stories();
             stories.caption = updateStories.caption;
-            stories.type = updateStories.type;
-            stories.background_color = updateStories.background_color;
 
             await this.storiesService.update(id, stories);
             
@@ -191,10 +193,13 @@ export class StoriesController {
     ) {
         try {
             const stories = await this.storiesService.find(uid);
+            
             if(typeof stories == "undefined") {
                 throw new HttpException('Data not found', 400);
+
             } else {
                 await this.storiesService.destroy(uid);
+
                 new ResponseOk(res, 200, false, "", null);
             }
         } catch(e) {

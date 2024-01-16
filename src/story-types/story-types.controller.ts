@@ -20,16 +20,22 @@ export class StoryTypesController {
     @Res() res: Response 
   ): Promise<void> {
     try {
+
       const storyTypes = await this.storyTypesService.findAll();
+      
       let data = [];
+      
       for (let i = 0; i < storyTypes.length; i++) {
+        var storyType = storyTypes[i];
+
         data.push({
-          id: storyTypes[i].uid,
-          type: storyTypes[i].type,
-          created_at: Utils.formatDate(storyTypes[i].created_at),
-          updated_at: Utils.formatDate(storyTypes[i].updated_at),
+          id: storyType.uid,
+          type: storyType.type,
+          created_at: Utils.formatDateWithSeconds(storyType.created_at),
+          updated_at: Utils.formatDateWithSeconds(storyType.updated_at),
         });
       }
+
       new ResponseOk(res, 200, false, "", data);
     } catch(e) {
       throw new HttpException(e.message, 400);

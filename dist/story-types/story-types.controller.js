@@ -31,11 +31,12 @@ let StoryTypesController = class StoryTypesController {
             const storyTypes = await this.storyTypesService.findAll();
             let data = [];
             for (let i = 0; i < storyTypes.length; i++) {
+                var storyType = storyTypes[i];
                 data.push({
-                    id: storyTypes[i].uid,
-                    type: storyTypes[i].type,
-                    created_at: utils_1.Utils.formatDate(storyTypes[i].created_at),
-                    updated_at: utils_1.Utils.formatDate(storyTypes[i].updated_at),
+                    id: storyType.uid,
+                    type: storyType.type,
+                    created_at: utils_1.Utils.formatDateWithSeconds(storyType.created_at),
+                    updated_at: utils_1.Utils.formatDateWithSeconds(storyType.updated_at),
                 });
             }
             new utils_1.ResponseOk(res, 200, false, "", data);

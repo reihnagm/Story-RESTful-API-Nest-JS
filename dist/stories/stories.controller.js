@@ -110,7 +110,7 @@ let StoriesController = class StoriesController {
             this.validateStore(formStories);
             var storyTypes = await this.storyTypesService.find(formStories.type);
             if (typeof storyTypes == "undefined") {
-                throw new common_1.HttpException("story_types not found", 400);
+                throw new common_1.HttpException("Data not found", 400);
             }
             let formUserStories = new form_store_dto_2.FormUserStoriesDto();
             formUserStories.id = (0, uuid_1.v4)();
@@ -130,15 +130,14 @@ let StoriesController = class StoriesController {
     }
     async update(data, _, res, id) {
         try {
+            const checkStories = await this.storiesService.find(id);
+            if (typeof checkStories == "undefined")
+                throw new common_1.HttpException('Data not found', 400);
             let updateStories = new update_dto_1.UpdateStoriesDto();
             updateStories.caption = data.caption;
-            updateStories.type = data.type;
-            updateStories.background_color = data.background_color;
             this.validateUpdate(id);
             let stories = new stories_entity_1.Stories();
             stories.caption = updateStories.caption;
-            stories.type = updateStories.type;
-            stories.background_color = updateStories.background_color;
             await this.storiesService.update(id, stories);
             new utils_1.ResponseOk(res, 200, false, "", null);
         }
