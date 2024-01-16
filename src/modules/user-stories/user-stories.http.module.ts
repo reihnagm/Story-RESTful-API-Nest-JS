@@ -3,6 +3,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { UserStoriesService } from 'src/user-stories/user-stories.service';
 import { UserStoriesModule } from './user-stories.module';
 import { UserStoriesController } from 'src/user-stories/user-stories.controller';
+import { WinstonLoggerService } from 'src/winston.logger.service';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { UserStoriesController } from 'src/user-stories/user-stories.controller'
   ],
   providers: [
     UserStoriesService,
+    WinstonLoggerService
   ],
   controllers: [UserStoriesController]
 })

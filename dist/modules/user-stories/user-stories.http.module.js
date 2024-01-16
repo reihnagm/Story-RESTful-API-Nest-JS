@@ -12,6 +12,7 @@ const jwt_1 = require("@nestjs/jwt");
 const user_stories_service_1 = require("../../user-stories/user-stories.service");
 const user_stories_module_1 = require("./user-stories.module");
 const user_stories_controller_1 = require("../../user-stories/user-stories.controller");
+const winston_logger_service_1 = require("../../winston.logger.service");
 let UserStoriesHttpModule = class UserStoriesHttpModule {
 };
 UserStoriesHttpModule = __decorate([
@@ -24,6 +25,7 @@ UserStoriesHttpModule = __decorate([
         ],
         providers: [
             user_stories_service_1.UserStoriesService,
+            winston_logger_service_1.WinstonLoggerService
         ],
         controllers: [user_stories_controller_1.UserStoriesController]
     })

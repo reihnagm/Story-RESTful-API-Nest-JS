@@ -19,9 +19,11 @@ const typeorm_2 = require("typeorm");
 const common_2 = require("@nestjs/common");
 const user_stories_entity_1 = require("../entities/user_stories.entity");
 const store_dto_1 = require("../dto/user-stories/store.dto");
+const winston_logger_service_1 = require("../winston.logger.service");
 let UserStoriesService = class UserStoriesService {
-    constructor(userStories) {
+    constructor(userStories, logger) {
         this.userStories = userStories;
+        this.logger = logger;
     }
     async findAll() {
         try {
@@ -32,7 +34,7 @@ let UserStoriesService = class UserStoriesService {
                 .getRawMany();
         }
         catch (e) {
-            console.log(e);
+            this.logger.error(e.message, e.stack);
         }
     }
     async find(uid) {
@@ -44,7 +46,7 @@ let UserStoriesService = class UserStoriesService {
                 .getRawOne();
         }
         catch (e) {
-            console.log(e);
+            this.logger.error(e.message, e.stack);
         }
     }
     async update(uid, data) {
@@ -54,7 +56,7 @@ let UserStoriesService = class UserStoriesService {
             });
         }
         catch (e) {
-            console.log(e);
+            this.logger.error(e.message, e.stack);
         }
     }
     async store(data) {
@@ -62,7 +64,7 @@ let UserStoriesService = class UserStoriesService {
             return await this.userStories.save(data);
         }
         catch (e) {
-            console.log(e);
+            this.logger.error(e.message, e.stack);
         }
     }
     async destroy(uid) {
@@ -72,7 +74,7 @@ let UserStoriesService = class UserStoriesService {
             });
         }
         catch (e) {
-            console.log(e);
+            this.logger.error(e.message, e.stack);
         }
     }
 };
@@ -103,7 +105,8 @@ __decorate([
 UserStoriesService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(user_stories_entity_1.UserStories)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        winston_logger_service_1.WinstonLoggerService])
 ], UserStoriesService);
 exports.UserStoriesService = UserStoriesService;
 //# sourceMappingURL=user-stories.service.js.map

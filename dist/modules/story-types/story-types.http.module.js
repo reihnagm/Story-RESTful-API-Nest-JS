@@ -12,6 +12,7 @@ const story_types_controller_1 = require("../../story-types/story-types.controll
 const common_1 = require("@nestjs/common");
 const stories_module_1 = require("../stories/stories.module");
 const jwt_1 = require("@nestjs/jwt");
+const winston_logger_service_1 = require("../../winston.logger.service");
 let StoryTypesHttpModule = class StoryTypesHttpModule {
 };
 StoryTypesHttpModule = __decorate([
@@ -24,6 +25,7 @@ StoryTypesHttpModule = __decorate([
         ],
         providers: [
             story_types_service_1.StoryTypesService,
+            winston_logger_service_1.WinstonLoggerService
         ],
         controllers: [story_types_controller_1.StoryTypesController]
     })

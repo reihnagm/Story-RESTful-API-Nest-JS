@@ -4,11 +4,13 @@ import { UpdateStoriesDto } from '@dto/stories/update.dto';
 import { StoriesService } from '@stories/stories.service';
 import { StoryTypesService } from '@story-types/story-types.service';
 import { UserStoriesService } from 'src/user-stories/user-stories.service';
+import { WinstonLoggerService } from 'src/winston.logger.service';
 export declare class StoriesController {
     private storiesService;
     private storyTypesService;
     private userStoriesService;
-    constructor(storiesService: StoriesService, storyTypesService: StoryTypesService, userStoriesService: UserStoriesService);
+    private readonly logger;
+    constructor(storiesService: StoriesService, storyTypesService: StoryTypesService, userStoriesService: UserStoriesService, logger: WinstonLoggerService);
     all(_: Request, res: Response): Promise<void>;
     single(_: Request, res: Response, uid: string): Promise<void>;
     store(data: FormStoreStoriesDto, _: Request, res: Response): Promise<void>;

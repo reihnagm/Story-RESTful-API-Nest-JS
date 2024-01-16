@@ -8,6 +8,7 @@ import { StoryTypesController } from '@story-types/story-types.controller';
 import { Module } from '@nestjs/common';
 import { StoriesModule } from '@modules/stories/stories.module';
 import { JwtModule } from '@nestjs/jwt';
+import { WinstonLoggerService } from 'src/winston.logger.service';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { JwtModule } from '@nestjs/jwt';
   ],
   providers: [
     StoryTypesService,
+    WinstonLoggerService
   ],
   controllers: [StoryTypesController]
 })

@@ -10,11 +10,15 @@ import { StoreStoryTypesDto } from '@dto/story-types/store.dto';
 import { UpdateStoryTypesDto } from '@dto/story-types/update.dto';
 import { StoryTypes } from '@entities/story_types.entity';
 import { SkipThrottle } from '@nestjs/throttler';
+import { WinstonLoggerService } from 'src/winston.logger.service';
 
 @SkipThrottle()
 @Controller()
 export class StoryTypesController {
-  constructor(private storyTypesService: StoryTypesService) {}
+  constructor(
+    private storyTypesService: StoryTypesService,
+    private readonly logger: WinstonLoggerService  
+  ) {}
 
   @UseGuards(UsersGuard)
   @Get('all')
@@ -41,6 +45,7 @@ export class StoryTypesController {
 
       new ResponseOk(res, 200, false, "", data);
     } catch(e) {
+      this.logger.error(e.message, e.stack);
       throw new HttpException(e.message, 400);
     }
   }
@@ -67,6 +72,7 @@ export class StoryTypesController {
         
       new ResponseOk(res, 200, false, "", data);
     } catch(e) {
+      this.logger.error(e.message, e.stack);
       throw new HttpException(e.message, 400);
     }
   }
@@ -88,6 +94,7 @@ export class StoryTypesController {
 
       new ResponseOk(res, 200, false, "", null);
     } catch(e) {
+      this.logger.error(e.message, e.stack);
       throw new HttpException(e.message, 400);
     }
   }
@@ -116,6 +123,7 @@ export class StoryTypesController {
       
       new ResponseOk(res, 200, false, "", null);
     } catch(e) {
+      this.logger.error(e.message, e.stack);
       throw new HttpException(e.message, 400);
     }
   }
@@ -137,6 +145,7 @@ export class StoryTypesController {
 
       new ResponseOk(res, 200, false, "", null);
     } catch(e) {
+      this.logger.error(e.message, e.stack);
       throw new HttpException(e.message, 400);
     }
   }

@@ -22,9 +22,11 @@ const store_dto_1 = require("../dto/story-types/store.dto");
 const update_dto_1 = require("../dto/story-types/update.dto");
 const story_types_entity_1 = require("../entities/story_types.entity");
 const throttler_1 = require("@nestjs/throttler");
+const winston_logger_service_1 = require("../winston.logger.service");
 let StoryTypesController = class StoryTypesController {
-    constructor(storyTypesService) {
+    constructor(storyTypesService, logger) {
         this.storyTypesService = storyTypesService;
+        this.logger = logger;
     }
     async all(_, res) {
         try {
@@ -42,6 +44,7 @@ let StoryTypesController = class StoryTypesController {
             new utils_1.ResponseOk(res, 200, false, "", data);
         }
         catch (e) {
+            this.logger.error(e.message, e.stack);
             throw new common_1.HttpException(e.message, 400);
         }
     }
@@ -59,6 +62,7 @@ let StoryTypesController = class StoryTypesController {
             new utils_1.ResponseOk(res, 200, false, "", data);
         }
         catch (e) {
+            this.logger.error(e.message, e.stack);
             throw new common_1.HttpException(e.message, 400);
         }
     }
@@ -71,6 +75,7 @@ let StoryTypesController = class StoryTypesController {
             new utils_1.ResponseOk(res, 200, false, "", null);
         }
         catch (e) {
+            this.logger.error(e.message, e.stack);
             throw new common_1.HttpException(e.message, 400);
         }
     }
@@ -87,6 +92,7 @@ let StoryTypesController = class StoryTypesController {
             new utils_1.ResponseOk(res, 200, false, "", null);
         }
         catch (e) {
+            this.logger.error(e.message, e.stack);
             throw new common_1.HttpException(e.message, 400);
         }
     }
@@ -99,6 +105,7 @@ let StoryTypesController = class StoryTypesController {
             new utils_1.ResponseOk(res, 200, false, "", null);
         }
         catch (e) {
+            this.logger.error(e.message, e.stack);
             throw new common_1.HttpException(e.message, 400);
         }
     }
@@ -156,7 +163,8 @@ __decorate([
 StoryTypesController = __decorate([
     (0, throttler_1.SkipThrottle)(),
     (0, common_1.Controller)(),
-    __metadata("design:paramtypes", [story_types_service_1.StoryTypesService])
+    __metadata("design:paramtypes", [story_types_service_1.StoryTypesService,
+        winston_logger_service_1.WinstonLoggerService])
 ], StoryTypesController);
 exports.StoryTypesController = StoryTypesController;
 //# sourceMappingURL=story-types.controller.js.map

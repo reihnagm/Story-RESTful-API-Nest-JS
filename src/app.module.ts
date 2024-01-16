@@ -5,15 +5,28 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
+import { ScheduleModule } from '@nestjs/schedule';
 import { NotFoundMiddleware } from '@middlewares/not-found';
 import { RouterModule } from '@nestjs/core';
 import { UserStoriesHttpModule } from '@modules/user-stories/user-stories.http.module';
+import { WinstonLoggerService } from './winston.logger.service';
 
 @Module({
+  providers: [
+    {
+      provide: 'LoggerService',
+      useClass: WinstonLoggerService,
+    },
+    StoriesHttpModule,
+    StoryTypesHttpModule,
+    UserStoriesHttpModule
+  ],
+  exports: ['LoggerService'],
   imports: [
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public/'),
     }),
+    ScheduleModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',

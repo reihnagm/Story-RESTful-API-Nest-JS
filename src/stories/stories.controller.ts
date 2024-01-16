@@ -14,6 +14,7 @@ import { StoreStoriesDto } from '@dto/stories/store.dto';
 import { UserStoriesService } from 'src/user-stories/user-stories.service';
 import { FormUserStoriesDto } from '@dto/user-stories/form.store.dto';
 import { StoreUserStoriesDto } from '@dto/user-stories/store.dto';
+import { WinstonLoggerService } from 'src/winston.logger.service';
 
 @SkipThrottle()
 @Controller()
@@ -21,7 +22,8 @@ export class StoriesController {
     constructor(
         private storiesService: StoriesService,
         private storyTypesService: StoryTypesService,
-        private userStoriesService: UserStoriesService
+        private userStoriesService: UserStoriesService,
+        private readonly logger: WinstonLoggerService
     ) {}
 
     @UseGuards(UsersGuard)
@@ -58,6 +60,7 @@ export class StoriesController {
 
             new ResponseOk(res, 200, false, "", data);
         } catch(e) {
+            this.logger.error(e.message, e.stack);
             throw new HttpException(e.message, 400);
         }
     }
@@ -93,6 +96,7 @@ export class StoriesController {
             
             new ResponseOk(res, 200, false, "", data);
         } catch(e) {
+            this.logger.error(e.message, e.stack);
             throw new HttpException(e.message, 400);
         }
     }
@@ -150,6 +154,7 @@ export class StoriesController {
 
             new ResponseOk(res, 200, false, "", null);
         } catch(e) {
+            this.logger.error(e.message, e.stack);
             throw new HttpException(e.message, 400);
         }
     }
@@ -180,6 +185,7 @@ export class StoriesController {
             
             new ResponseOk(res, 200, false, "", null);
         } catch(e) {
+            this.logger.error(e.message, e.stack);
             throw new HttpException(e.message, 400);
         }
     }
@@ -203,6 +209,7 @@ export class StoriesController {
                 new ResponseOk(res, 200, false, "", null);
             }
         } catch(e) {
+            this.logger.error(e.message, e.stack);
             throw new HttpException(e.message, 400);
         }
     }

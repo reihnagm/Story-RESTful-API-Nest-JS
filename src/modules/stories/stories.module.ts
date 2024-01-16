@@ -10,7 +10,7 @@ import { UserStories } from '@entities/user_stories.entity';
     TypeOrmModule.forFeature([
       Stories, 
       StoryTypes,
-      UserStories
+      UserStories,
     ]), 
     ConfigModule.forRoot()
   ],

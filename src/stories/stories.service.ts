@@ -4,13 +4,21 @@ import { Repository } from 'typeorm';
 import { Stories } from '@entities/stories.entity';
 import { Param } from '@nestjs/common';
 import { StoreStoriesDto } from '@dto/stories/store.dto';
+import { WinstonLoggerService } from 'src/winston.logger.service';
+// import { Interval } from '@nestjs/schedule';
 
 @Injectable()
 export class StoriesService {
   constructor(
     @InjectRepository(Stories)
     private storiesRepository: Repository<Stories>,
+    private readonly logger: WinstonLoggerService
   ) {}
+
+  // @Interval(30000)
+  // handleInterval() {
+  //   console.log("Called every 30 seconds")
+  // }
 
   async findAll() : Promise<Stories[]> {
     try {
@@ -20,7 +28,7 @@ export class StoriesService {
       .orderBy("s.id", "DESC")
       .getRawMany()
     } catch(e) {
-      console.log(e);
+      this.logger.error(e.message, e.stack);
     }
   }
 
@@ -32,7 +40,7 @@ export class StoriesService {
       .where("uid = :uid", { uid: id })
       .getRawOne()
     } catch(e) {
-      console.log(e);
+      this.logger.error(e.message, e.stack);
     }
   }
   
@@ -42,7 +50,7 @@ export class StoriesService {
         caption: data.caption
       });
     } catch(e) {
-      console.log(e);
+      this.logger.error(e.message, e.stack);
     }
   }
 
@@ -50,7 +58,7 @@ export class StoriesService {
     try { 
       return await this.storiesRepository.save(data);
     } catch(e) {
-      console.log(e);
+      this.logger.error(e.message, e.stack);
     }
   }
 
@@ -60,7 +68,7 @@ export class StoriesService {
         uid: id
       });
     } catch(e) {
-      console.log(e);
+      this.logger.error(e.message, e.stack);
     }
   }
 }

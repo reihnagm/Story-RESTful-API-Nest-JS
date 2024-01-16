@@ -19,9 +19,11 @@ const typeorm_2 = require("typeorm");
 const story_types_entity_1 = require("../entities/story_types.entity");
 const common_2 = require("@nestjs/common");
 const store_dto_1 = require("../dto/story-types/store.dto");
+const winston_logger_service_1 = require("../winston.logger.service");
 let StoryTypesService = class StoryTypesService {
-    constructor(storyTypesRepository) {
+    constructor(storyTypesRepository, logger) {
         this.storyTypesRepository = storyTypesRepository;
+        this.logger = logger;
     }
     async findAll() {
         try {
@@ -32,7 +34,7 @@ let StoryTypesService = class StoryTypesService {
                 .getRawMany();
         }
         catch (e) {
-            console.log(e);
+            this.logger.error(e.message, e.stack);
         }
     }
     async find(id) {
@@ -44,7 +46,7 @@ let StoryTypesService = class StoryTypesService {
                 .getRawOne();
         }
         catch (e) {
-            console.log(e);
+            this.logger.error(e.message, e.stack);
         }
     }
     async update(id, data) {
@@ -54,7 +56,7 @@ let StoryTypesService = class StoryTypesService {
             });
         }
         catch (e) {
-            console.log(e);
+            this.logger.error(e.message, e.stack);
         }
     }
     async store(data) {
@@ -62,7 +64,7 @@ let StoryTypesService = class StoryTypesService {
             return await this.storyTypesRepository.save(data);
         }
         catch (e) {
-            console.log(e);
+            this.logger.error(e.message, e.stack);
         }
     }
     async destroy(id) {
@@ -72,7 +74,7 @@ let StoryTypesService = class StoryTypesService {
             });
         }
         catch (e) {
-            console.log(e);
+            this.logger.error(e.message, e.stack);
         }
     }
 };
@@ -103,7 +105,8 @@ __decorate([
 StoryTypesService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(story_types_entity_1.StoryTypes)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        winston_logger_service_1.WinstonLoggerService])
 ], StoryTypesService);
 exports.StoryTypesService = StoryTypesService;
 //# sourceMappingURL=story-types.service.js.map

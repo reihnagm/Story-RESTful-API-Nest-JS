@@ -19,9 +19,11 @@ const typeorm_2 = require("typeorm");
 const stories_entity_1 = require("../entities/stories.entity");
 const common_2 = require("@nestjs/common");
 const store_dto_1 = require("../dto/stories/store.dto");
+const winston_logger_service_1 = require("../winston.logger.service");
 let StoriesService = class StoriesService {
-    constructor(storiesRepository) {
+    constructor(storiesRepository, logger) {
         this.storiesRepository = storiesRepository;
+        this.logger = logger;
     }
     async findAll() {
         try {
@@ -32,7 +34,7 @@ let StoriesService = class StoriesService {
                 .getRawMany();
         }
         catch (e) {
-            console.log(e);
+            this.logger.error(e.message, e.stack);
         }
     }
     async find(id) {
@@ -44,7 +46,7 @@ let StoriesService = class StoriesService {
                 .getRawOne();
         }
         catch (e) {
-            console.log(e);
+            this.logger.error(e.message, e.stack);
         }
     }
     async update(id, data) {
@@ -54,7 +56,7 @@ let StoriesService = class StoriesService {
             });
         }
         catch (e) {
-            console.log(e);
+            this.logger.error(e.message, e.stack);
         }
     }
     async store(data) {
@@ -62,7 +64,7 @@ let StoriesService = class StoriesService {
             return await this.storiesRepository.save(data);
         }
         catch (e) {
-            console.log(e);
+            this.logger.error(e.message, e.stack);
         }
     }
     async destroy(id) {
@@ -72,7 +74,7 @@ let StoriesService = class StoriesService {
             });
         }
         catch (e) {
-            console.log(e);
+            this.logger.error(e.message, e.stack);
         }
     }
 };
@@ -103,7 +105,8 @@ __decorate([
 StoriesService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(stories_entity_1.Stories)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        winston_logger_service_1.WinstonLoggerService])
 ], StoriesService);
 exports.StoriesService = StoriesService;
 //# sourceMappingURL=stories.service.js.map

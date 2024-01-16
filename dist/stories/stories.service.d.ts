@@ -1,9 +1,11 @@
 import { Repository } from 'typeorm';
 import { Stories } from '@entities/stories.entity';
 import { StoreStoriesDto } from '@dto/stories/store.dto';
+import { WinstonLoggerService } from 'src/winston.logger.service';
 export declare class StoriesService {
     private storiesRepository;
-    constructor(storiesRepository: Repository<Stories>);
+    private readonly logger;
+    constructor(storiesRepository: Repository<Stories>, logger: WinstonLoggerService);
     findAll(): Promise<Stories[]>;
     find(id: string): Promise<Stories>;
     update(id: any, data: Stories): Promise<import("typeorm").UpdateResult>;

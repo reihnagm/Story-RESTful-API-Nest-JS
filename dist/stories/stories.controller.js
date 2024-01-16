@@ -29,11 +29,13 @@ const store_dto_1 = require("../dto/stories/store.dto");
 const user_stories_service_1 = require("../user-stories/user-stories.service");
 const form_store_dto_2 = require("../dto/user-stories/form.store.dto");
 const store_dto_2 = require("../dto/user-stories/store.dto");
+const winston_logger_service_1 = require("../winston.logger.service");
 let StoriesController = class StoriesController {
-    constructor(storiesService, storyTypesService, userStoriesService) {
+    constructor(storiesService, storyTypesService, userStoriesService, logger) {
         this.storiesService = storiesService;
         this.storyTypesService = storyTypesService;
         this.userStoriesService = userStoriesService;
+        this.logger = logger;
     }
     async all(_, res) {
         try {
@@ -59,6 +61,7 @@ let StoriesController = class StoriesController {
             new utils_1.ResponseOk(res, 200, false, "", data);
         }
         catch (e) {
+            this.logger.error(e.message, e.stack);
             throw new common_1.HttpException(e.message, 400);
         }
     }
@@ -84,6 +87,7 @@ let StoriesController = class StoriesController {
             new utils_1.ResponseOk(res, 200, false, "", data);
         }
         catch (e) {
+            this.logger.error(e.message, e.stack);
             throw new common_1.HttpException(e.message, 400);
         }
     }
@@ -125,6 +129,7 @@ let StoriesController = class StoriesController {
             new utils_1.ResponseOk(res, 200, false, "", null);
         }
         catch (e) {
+            this.logger.error(e.message, e.stack);
             throw new common_1.HttpException(e.message, 400);
         }
     }
@@ -142,6 +147,7 @@ let StoriesController = class StoriesController {
             new utils_1.ResponseOk(res, 200, false, "", null);
         }
         catch (e) {
+            this.logger.error(e.message, e.stack);
             throw new common_1.HttpException(e.message, 400);
         }
     }
@@ -157,6 +163,7 @@ let StoriesController = class StoriesController {
             }
         }
         catch (e) {
+            this.logger.error(e.message, e.stack);
             throw new common_1.HttpException(e.message, 400);
         }
     }
@@ -250,7 +257,8 @@ StoriesController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [stories_service_1.StoriesService,
         story_types_service_1.StoryTypesService,
-        user_stories_service_1.UserStoriesService])
+        user_stories_service_1.UserStoriesService,
+        winston_logger_service_1.WinstonLoggerService])
 ], StoriesController);
 exports.StoriesController = StoriesController;
 //# sourceMappingURL=stories.controller.js.map

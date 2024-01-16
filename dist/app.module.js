@@ -14,9 +14,11 @@ const common_1 = require("@nestjs/common");
 const serve_static_1 = require("@nestjs/serve-static");
 const typeorm_1 = require("@nestjs/typeorm");
 const path_1 = require("path");
+const schedule_1 = require("@nestjs/schedule");
 const not_found_1 = require("./middlewares/not-found");
 const core_1 = require("@nestjs/core");
 const user_stories_http_module_1 = require("./modules/user-stories/user-stories.http.module");
+const winston_logger_service_1 = require("./winston.logger.service");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer.apply(not_found_1.NotFoundMiddleware).forRoutes('*');
@@ -24,10 +26,21 @@ let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
+        providers: [
+            {
+                provide: 'LoggerService',
+                useClass: winston_logger_service_1.WinstonLoggerService,
+            },
+            stories_http_module_1.StoriesHttpModule,
+            story_types_http_module_1.StoryTypesHttpModule,
+            user_stories_http_module_1.UserStoriesHttpModule
+        ],
+        exports: ['LoggerService'],
         imports: [
             serve_static_1.ServeStaticModule.forRoot({
                 rootPath: (0, path_1.join)(__dirname, '..', 'public/'),
             }),
+            schedule_1.ScheduleModule.forRoot(),
             typeorm_1.TypeOrmModule.forRoot({
                 type: 'mysql',
                 host: 'localhost',

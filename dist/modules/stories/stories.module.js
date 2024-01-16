@@ -21,7 +21,7 @@ StoriesModule = __decorate([
             typeorm_1.TypeOrmModule.forFeature([
                 stories_entity_1.Stories,
                 story_types_entity_1.StoryTypes,
-                user_stories_entity_1.UserStories
+                user_stories_entity_1.UserStories,
             ]),
             config_1.ConfigModule.forRoot()
         ],

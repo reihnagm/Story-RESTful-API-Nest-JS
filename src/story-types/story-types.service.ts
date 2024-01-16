@@ -4,12 +4,14 @@ import { Repository } from 'typeorm';
 import { StoryTypes } from '@entities/story_types.entity';
 import { Param } from '@nestjs/common';
 import { StoreStoryTypesDto } from '@dto/story-types/store.dto';
+import { WinstonLoggerService } from 'src/winston.logger.service';
 
 @Injectable()
 export class StoryTypesService {
   constructor(
     @InjectRepository(StoryTypes)
     private storyTypesRepository: Repository<StoryTypes>,
+    private readonly logger: WinstonLoggerService
   ) {}
 
   async findAll() : Promise<StoryTypes[]> {
@@ -20,7 +22,7 @@ export class StoryTypesService {
       .orderBy("s.id", "ASC")
       .getRawMany();
     } catch(e) {
-      console.log(e);
+      this.logger.error(e.message, e.stack);
     }
   }
 
@@ -32,7 +34,7 @@ export class StoryTypesService {
       .where("s.id = :id", {id: id})
       .getRawOne();
     } catch(e) {
-      console.log(e);
+      this.logger.error(e.message, e.stack);
     }
   }
 
@@ -42,7 +44,7 @@ export class StoryTypesService {
         type: data.type
       });
     } catch(e) {
-      console.log(e);
+      this.logger.error(e.message, e.stack);
     }
   }
 
@@ -50,7 +52,7 @@ export class StoryTypesService {
     try { 
       return await this.storyTypesRepository.save(data);
     } catch(e) {
-      console.log(e);
+      this.logger.error(e.message, e.stack);
     }
   }
 
@@ -60,7 +62,7 @@ export class StoryTypesService {
         id: id
       });
     } catch(e) {
-      console.log(e);
+      this.logger.error(e.message, e.stack);
     }
   }
 }
