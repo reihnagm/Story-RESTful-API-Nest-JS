@@ -22,10 +22,12 @@ const register_dto_1 = require("../dto/users/register-dto");
 const login_dto_1 = require("../dto/users/login-dto");
 const users_service_1 = require("./users.service");
 const jwt_1 = require("@nestjs/jwt");
+const winston_logger_service_1 = require("../winston.logger.service");
 let UsersController = class UsersController {
-    constructor(usersService, jwtService) {
+    constructor(usersService, jwtService, logger) {
         this.usersService = usersService;
         this.jwtService = jwtService;
+        this.logger = logger;
     }
     async login(_, res, data) {
         try {
@@ -65,6 +67,7 @@ let UsersController = class UsersController {
             }
         }
         catch (e) {
+            this.logger.error(e.message, e.stack);
             throw new common_1.HttpException(e.message, 400);
         }
     }
@@ -81,8 +84,8 @@ let UsersController = class UsersController {
                 throw new common_1.HttpException(errors[0].constraints, 400);
             }
             else {
-                let isUserExists = await this.usersService.isUserExists(auth);
-                if (isUserExists == null) {
+                let isUserExist = await this.usersService.isUserExists(auth);
+                if (isUserExist == null) {
                     await this.usersService.register(auth);
                     new utils_1.ResponseOk(res, 200, false, "", {
                         id: auth.uid,
@@ -93,11 +96,12 @@ let UsersController = class UsersController {
                     });
                 }
                 else {
-                    throw new common_1.HttpException('User already exists', 400);
+                    throw new common_1.HttpException('User already exist', 400);
                 }
             }
         }
         catch (e) {
+            this.logger.error(e.message, e.stack);
             throw new common_1.HttpException(e.message, 400);
         }
     }
@@ -123,7 +127,8 @@ __decorate([
 UsersController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [users_service_1.UsersService,
-        jwt_1.JwtService])
+        jwt_1.JwtService,
+        winston_logger_service_1.WinstonLoggerService])
 ], UsersController);
 exports.UsersController = UsersController;
 //# sourceMappingURL=users.controller.js.map

@@ -3,11 +3,13 @@ import { Repository } from "typeorm/repository/Repository";
 import { Users } from "@entities/users.entity";
 import { LoginDto } from "@dto/users/login-dto";
 import { RegisterDto } from "@dto/users/register-dto";
+import { WinstonLoggerService } from "src/winston.logger.service";
 
 export class UsersService {
     constructor(
         @InjectRepository(Users)
         private authRepository: Repository<Users>,
+        private readonly logger: WinstonLoggerService
     ) {}
 
     async login(data: LoginDto) : Promise<Users> { 
@@ -18,7 +20,7 @@ export class UsersService {
             .where("user.phone = :phone", { phone: data.phone })
             .getRawOne();
         } catch(e) {
-            console.log(e);
+            this.logger.error(e.message, e.stack);
         }
     }
 
@@ -26,7 +28,7 @@ export class UsersService {
         try {
             return await this.authRepository.save(data);  
         } catch(e) {
-            console.log(e);
+            this.logger.error(e.message, e.stack);
         }
     }
 
@@ -43,7 +45,7 @@ export class UsersService {
             })
             .getRawOne();
         } catch(e) {
-            console.log(e);
+            this.logger.error(e.message, e.stack);
         }
     }
 }

@@ -14,6 +14,7 @@ const users_module_1 = require("./users.module");
 const jwt_1 = require("@nestjs/jwt");
 const throttler_1 = require("@nestjs/throttler");
 const core_1 = require("@nestjs/core");
+const winston_logger_service_1 = require("../../winston.logger.service");
 let UsersHttpModule = class UsersHttpModule {
 };
 UsersHttpModule = __decorate([
@@ -30,6 +31,7 @@ UsersHttpModule = __decorate([
         ],
         providers: [
             users_service_1.UsersService,
+            winston_logger_service_1.WinstonLoggerService,
             {
                 provide: core_1.APP_GUARD,
                 useClass: throttler_1.ThrottlerGuard

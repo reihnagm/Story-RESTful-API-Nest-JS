@@ -33,7 +33,8 @@ AppModule = __decorate([
             },
             stories_http_module_1.StoriesHttpModule,
             story_types_http_module_1.StoryTypesHttpModule,
-            user_stories_http_module_1.UserStoriesHttpModule
+            user_stories_http_module_1.UserStoriesHttpModule,
+            users_http_module_1.UsersHttpModule
         ],
         exports: ['LoggerService'],
         imports: [

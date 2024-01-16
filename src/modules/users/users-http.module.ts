@@ -11,6 +11,7 @@ import { UsersModule } from '@modules/users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { WinstonLoggerService } from 'src/winston.logger.service';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { APP_GUARD } from '@nestjs/core';
   ],
   providers: [
     UsersService,
+    WinstonLoggerService,
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard

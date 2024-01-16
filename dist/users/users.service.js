@@ -16,9 +16,11 @@ exports.UsersService = void 0;
 const typeorm_1 = require("@nestjs/typeorm");
 const Repository_1 = require("typeorm/repository/Repository");
 const users_entity_1 = require("../entities/users.entity");
+const winston_logger_service_1 = require("../winston.logger.service");
 let UsersService = class UsersService {
-    constructor(authRepository) {
+    constructor(authRepository, logger) {
         this.authRepository = authRepository;
+        this.logger = logger;
     }
     async login(data) {
         try {
@@ -29,7 +31,7 @@ let UsersService = class UsersService {
                 .getRawOne();
         }
         catch (e) {
-            console.log(e);
+            this.logger.error(e.message, e.stack);
         }
     }
     async register(data) {
@@ -37,7 +39,7 @@ let UsersService = class UsersService {
             return await this.authRepository.save(data);
         }
         catch (e) {
-            console.log(e);
+            this.logger.error(e.message, e.stack);
         }
     }
     async isUserExists(data) {
@@ -54,13 +56,14 @@ let UsersService = class UsersService {
                 .getRawOne();
         }
         catch (e) {
-            console.log(e);
+            this.logger.error(e.message, e.stack);
         }
     }
 };
 UsersService = __decorate([
     __param(0, (0, typeorm_1.InjectRepository)(users_entity_1.Users)),
-    __metadata("design:paramtypes", [Repository_1.Repository])
+    __metadata("design:paramtypes", [Repository_1.Repository,
+        winston_logger_service_1.WinstonLoggerService])
 ], UsersService);
 exports.UsersService = UsersService;
 //# sourceMappingURL=users.service.js.map

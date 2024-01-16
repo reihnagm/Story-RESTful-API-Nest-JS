@@ -19,7 +19,8 @@ import { WinstonLoggerService } from './winston.logger.service';
     },
     StoriesHttpModule,
     StoryTypesHttpModule,
-    UserStoriesHttpModule
+    UserStoriesHttpModule,
+    UsersHttpModule
   ],
   exports: ['LoggerService'],
   imports: [
