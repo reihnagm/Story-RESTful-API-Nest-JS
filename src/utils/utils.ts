@@ -1,4 +1,4 @@
-import moment from 'moment';
+import * as moment from 'moment';
 import { extname } from 'path';
 
 export class ResponseOk {
@@ -10,29 +10,29 @@ export class ResponseOk {
         private data: any
     ) {
 
-        if(Array.isArray(data)) {
+        if(Array.isArray(this.data)) {
             let resultPrint = {
-                status: status || 200,
-                error: error || false,
-                message: message || 'Ok',
-                data: data ? data : []
+                status: this.status || 200,
+                error: this.error || false,
+                message: this.message || 'Ok',
+                data: this.data ? this.data : []
             }
-            return response.status(resultPrint.status).json(resultPrint)
+            return this.response.status(resultPrint.status).json(resultPrint)
         } else if(data == null) {
             let resultPrint = {
-                status: status || 200,
-                error: error || false,
-                message: message || 'Ok',  
+                status: this.status || 200,
+                error: this.error || false,
+                message: this.message || 'Ok',  
             }
-            return response.status(resultPrint.status).json(resultPrint)
+            return this.response.status(resultPrint.status).json(resultPrint)
         } else {
             let resultPrint = {
-                status: status || 200,
-                error: error || false,
-                message: message || 'Ok',
-                data: data
+                status: this.status || 200,
+                error: this.error || false,
+                message: this.message || 'Ok',
+                data: this.data
             }
-            return response.status(resultPrint.status).json(resultPrint)
+            return this.response.status(resultPrint.status).json(resultPrint)
         }
 
     }
@@ -78,17 +78,17 @@ export class Utils {
         return moment(date).locale('id').format('yyyy/MM/DD')
     }
 
-    // formatDateTimeAgo: (date) => {
-    //     return moment(date).locale('en').fromNow()
-    // },
+    static formatDateTimeAgo (date: Date): String {
+        return moment(date).locale('en').fromNow()
+    }
 
-    // formatDateWithSubtractDays: (date, d) => {
-    //     return moment(date).subtract(d, 'days').locale('id').format('yyyy/MM/DD')
-    // },
+    static formatDateWithSubtractDays (date: Date): String  {
+        return moment(date).subtract(1, 'days').locale('id').format('yyyy/MM/DD')
+    }
 
-    // formatDateWithSeconds: (date) => {
-    //     return moment(date).locale('id').format('yyyy/MM/DD H:mm:ss')
-    // },
+    static formatDateWithSeconds (date: Date): String {
+        return moment(date).locale('id').format('yyyy/MM/DD HH:mm:ss')
+    }
 
     static isImage (ext: string) {
         switch (ext) {

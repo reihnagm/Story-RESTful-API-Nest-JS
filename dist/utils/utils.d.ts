@@ -11,6 +11,9 @@ export declare class Utils {
     static fdate(date: Date): String;
     static formatYearAndMonth(date: Date): String;
     static formatDate(date: Date): String;
+    static formatDateTimeAgo(date: Date): String;
+    static formatDateWithSubtractDays(date: Date): String;
+    static formatDateWithSeconds(date: Date): String;
     static isImage(ext: string): boolean;
     static slug(val: string, isUnique: boolean, markUnique: string): string;
     static terbilang(angka: any): any;

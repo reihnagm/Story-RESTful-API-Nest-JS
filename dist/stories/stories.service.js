@@ -27,7 +27,7 @@ let StoriesService = class StoriesService {
         try {
             return await this.storiesRepository
                 .createQueryBuilder("s")
-                .select("s.uid, s.caption, s.background_color, s.type, s.created_at, s.updated_at")
+                .select("s.uid, s.caption, s.media, s.background_color, s.text_color, s.type, s.created_at, s.updated_at")
                 .orderBy("s.id", "DESC")
                 .getRawMany();
         }
@@ -39,7 +39,7 @@ let StoriesService = class StoriesService {
         try {
             return await this.storiesRepository
                 .createQueryBuilder("s")
-                .select("s.uid, s.caption, s.background_color, s.type, s.created_at, s.updated_at")
+                .select("s.uid, s.caption, s.media, s.background_color, s.text_color, s.type, s.created_at, s.updated_at")
                 .where("uid = :uid", { uid: uid })
                 .getRawOne();
         }

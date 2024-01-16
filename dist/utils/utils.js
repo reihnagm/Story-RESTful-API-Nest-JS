@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Utils = exports.ResponseOk = void 0;
-const moment_1 = require("moment");
+const moment = require("moment");
 const path_1 = require("path");
 class ResponseOk {
     constructor(response, status, error, message, data) {
@@ -10,31 +10,31 @@ class ResponseOk {
         this.error = error;
         this.message = message;
         this.data = data;
-        if (Array.isArray(data)) {
+        if (Array.isArray(this.data)) {
             let resultPrint = {
-                status: status || 200,
-                error: error || false,
-                message: message || 'Ok',
-                data: data ? data : []
+                status: this.status || 200,
+                error: this.error || false,
+                message: this.message || 'Ok',
+                data: this.data ? this.data : []
             };
-            return response.status(resultPrint.status).json(resultPrint);
+            return this.response.status(resultPrint.status).json(resultPrint);
         }
         else if (data == null) {
             let resultPrint = {
-                status: status || 200,
-                error: error || false,
-                message: message || 'Ok',
+                status: this.status || 200,
+                error: this.error || false,
+                message: this.message || 'Ok',
             };
-            return response.status(resultPrint.status).json(resultPrint);
+            return this.response.status(resultPrint.status).json(resultPrint);
         }
         else {
             let resultPrint = {
-                status: status || 200,
-                error: error || false,
-                message: message || 'Ok',
-                data: data
+                status: this.status || 200,
+                error: this.error || false,
+                message: this.message || 'Ok',
+                data: this.data
             };
-            return response.status(resultPrint.status).json(resultPrint);
+            return this.response.status(resultPrint.status).json(resultPrint);
         }
     }
 }
@@ -69,13 +69,22 @@ class Utils {
         }
     }
     static fdate(date) {
-        return (0, moment_1.default)(date).locale('id').format('dddd, d MMMM YYYY');
+        return moment(date).locale('id').format('dddd, d MMMM YYYY');
     }
     static formatYearAndMonth(date) {
-        return (0, moment_1.default)(date).locale('id').format('yyyy/MM');
+        return moment(date).locale('id').format('yyyy/MM');
     }
     static formatDate(date) {
-        return (0, moment_1.default)(date).locale('id').format('yyyy/MM/DD');
+        return moment(date).locale('id').format('yyyy/MM/DD');
+    }
+    static formatDateTimeAgo(date) {
+        return moment(date).locale('en').fromNow();
+    }
+    static formatDateWithSubtractDays(date) {
+        return moment(date).subtract(1, 'days').locale('id').format('yyyy/MM/DD');
+    }
+    static formatDateWithSeconds(date) {
+        return moment(date).locale('id').format('yyyy/MM/DD HH:mm:ss');
     }
     static isImage(ext) {
         switch (ext) {

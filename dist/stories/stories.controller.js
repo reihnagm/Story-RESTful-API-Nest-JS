@@ -40,46 +40,51 @@ let StoriesController = class StoriesController {
             const stories = await this.storiesService.findAll();
             let data = [];
             for (let i = 0; i < stories.length; i++) {
-                const storyTypes = await this.storyTypesService.find(stories[i].type);
+                const story = stories[i];
+                const storyTypes = await this.storyTypesService.find(story.type);
                 data.push({
-                    id: stories[i].uid,
-                    caption: stories[i].caption,
-                    background_color: stories[i].background_color,
+                    id: story.uid,
+                    caption: story.caption,
+                    media: story.media,
+                    background_color: story.background_color,
+                    text_color: story.text_color,
                     type: {
-                        uid: storyTypes == null ? '-' : storyTypes.uid,
-                        type: storyTypes == null ? '-' : storyTypes.type
+                        id: typeof storyTypes == "undefined" ? '-' : storyTypes.uid,
+                        type: typeof storyTypes == "undefined" ? '-' : storyTypes.type
                     },
-                    created_at: utils_1.Utils.formatDate(stories[i].created_at),
-                    updated_at: utils_1.Utils.formatDate(stories[i].updated_at),
+                    created_at: utils_1.Utils.formatDateWithSeconds(story.created_at),
+                    updated_at: utils_1.Utils.formatDateWithSeconds(story.updated_at),
                 });
             }
             new utils_1.ResponseOk(res, 200, false, "", data);
         }
-        catch (_) {
-            throw new common_1.HttpException('Internal Server Error', 400);
+        catch (e) {
+            throw new common_1.HttpException(e.message, 400);
         }
     }
     async single(_, res, uid) {
         try {
             const stories = await this.storiesService.find(uid);
-            if (typeof stories == 'undefined')
-                throw new common_1.HttpException('Data not found', 400);
+            if (typeof stories == "undefined")
+                throw new common_1.HttpException("Data not found", 400);
             const storyTypes = await this.storyTypesService.find(stories.type);
             let data = {
                 id: stories.uid,
                 caption: stories.caption,
+                media: stories.media,
                 background_color: stories.background_color,
+                text_color: stories.text_color,
                 type: {
-                    uid: storyTypes == null ? '-' : storyTypes.uid,
-                    type: storyTypes == null ? '-' : storyTypes.type
+                    id: typeof storyTypes == "undefined" ? '-' : storyTypes.uid,
+                    type: typeof storyTypes == "undefined" ? '-' : storyTypes.type
                 },
-                created_at: utils_1.Utils.formatDate(stories.created_at),
-                updated_at: utils_1.Utils.formatDate(stories.updated_at)
+                created_at: utils_1.Utils.formatDateWithSeconds(stories.created_at),
+                updated_at: utils_1.Utils.formatDateWithSeconds(stories.updated_at)
             };
             new utils_1.ResponseOk(res, 200, false, "", data);
         }
-        catch (_) {
-            throw new common_1.HttpException('Internal Server Error', 400);
+        catch (e) {
+            throw new common_1.HttpException(e.message, 400);
         }
     }
     async store(data, _, res) {
