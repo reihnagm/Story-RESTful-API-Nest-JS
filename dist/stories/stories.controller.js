@@ -62,14 +62,14 @@ let StoriesController = class StoriesController {
         }
         catch (e) {
             this.logger.error(e.message, e.stack);
-            throw new common_1.HttpException(e.message, 400);
+            new common_1.HttpException(e.message, 400);
         }
     }
     async single(_, res, uid) {
         try {
             const stories = await this.storiesService.find(uid);
             if (typeof stories == "undefined")
-                throw new common_1.HttpException("Data not found", 400);
+                new common_1.HttpException("Data not found", 400);
             const storyTypes = await this.storyTypesService.find(stories.type);
             let data = {
                 id: stories.uid,
@@ -88,7 +88,7 @@ let StoriesController = class StoriesController {
         }
         catch (e) {
             this.logger.error(e.message, e.stack);
-            throw new common_1.HttpException(e.message, 400);
+            new common_1.HttpException(e.message, 400);
         }
     }
     async store(data, _, res) {
@@ -114,7 +114,7 @@ let StoriesController = class StoriesController {
             this.validateStore(formStories);
             var storyTypes = await this.storyTypesService.find(formStories.type);
             if (typeof storyTypes == "undefined") {
-                throw new common_1.HttpException("Data not found", 400);
+                new common_1.HttpException("Data not found", 400);
             }
             let formUserStories = new form_store_dto_2.FormUserStoriesDto();
             formUserStories.id = (0, uuid_1.v4)();
@@ -130,14 +130,14 @@ let StoriesController = class StoriesController {
         }
         catch (e) {
             this.logger.error(e.message, e.stack);
-            throw new common_1.HttpException(e.message, 400);
+            new common_1.HttpException(e.message, 400);
         }
     }
     async update(data, _, res, id) {
         try {
             const checkStories = await this.storiesService.find(id);
             if (typeof checkStories == "undefined")
-                throw new common_1.HttpException('Data not found', 400);
+                new common_1.HttpException('Data not found', 400);
             let updateStories = new update_dto_1.UpdateStoriesDto();
             updateStories.caption = data.caption;
             this.validateUpdate(id);
@@ -148,14 +148,14 @@ let StoriesController = class StoriesController {
         }
         catch (e) {
             this.logger.error(e.message, e.stack);
-            throw new common_1.HttpException(e.message, 400);
+            new common_1.HttpException(e.message, 400);
         }
     }
     async delete(_, res, uid) {
         try {
             const stories = await this.storiesService.find(uid);
             if (typeof stories == "undefined") {
-                throw new common_1.HttpException('Data not found', 400);
+                new common_1.HttpException('Data not found', 400);
             }
             else {
                 await this.storiesService.destroy(uid);
@@ -164,28 +164,28 @@ let StoriesController = class StoriesController {
         }
         catch (e) {
             this.logger.error(e.message, e.stack);
-            throw new common_1.HttpException(e.message, 400);
+            new common_1.HttpException(e.message, 400);
         }
     }
     validateStore(data) {
         if (data.background_color == '')
-            throw new Error(`background_color is required`);
+            new Error(`background_color is required`);
         if (data.text_color == '')
-            throw new Error(`text_color is required`);
+            new Error(`text_color is required`);
         if (data.caption == '')
-            throw new Error(`caption is required`);
+            new Error(`caption is required`);
         if (data.media == '')
-            throw new Error(`media is required`);
+            new Error(`media is required`);
         if (data.duration == '')
-            throw new Error(`duration is required`);
+            new Error(`duration is required`);
         if (data.type == '')
-            throw new Error(`type is required`);
+            new Error(`type is required`);
         if (data.user_id == '')
-            throw new Error(`user_id is required`);
+            new Error(`user_id is required`);
     }
     validateUpdate(id) {
         if (id == '')
-            throw new Error(`id is required`);
+            new Error(`id is required`);
     }
     uploadFile(file) { }
 };

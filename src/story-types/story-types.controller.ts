@@ -46,7 +46,7 @@ export class StoryTypesController {
       new ResponseOk(res, 200, false, "", data);
     } catch(e) {
       this.logger.error(e.message, e.stack);
-      throw new HttpException(e.message, 400);
+      new HttpException(e.message, 400);
     }
   }
 
@@ -61,7 +61,7 @@ export class StoryTypesController {
       const storyTypes = await this.storyTypesService.find(uid);
 
       if(typeof storyTypes == "undefined")
-          throw new HttpException("Data not found", 400);
+        new HttpException("Data not found", 400);
 
       let data = {
         id: storyTypes.uid,
@@ -73,7 +73,7 @@ export class StoryTypesController {
       new ResponseOk(res, 200, false, "", data);
     } catch(e) {
       this.logger.error(e.message, e.stack);
-      throw new HttpException(e.message, 400);
+      new HttpException(e.message, 400);
     }
   }
 
@@ -95,7 +95,7 @@ export class StoryTypesController {
       new ResponseOk(res, 200, false, "", null);
     } catch(e) {
       this.logger.error(e.message, e.stack);
-      throw new HttpException(e.message, 400);
+      new HttpException(e.message, 400);
     }
   }
 
@@ -111,7 +111,7 @@ export class StoryTypesController {
       let checkStoryTypes = await this.storyTypesService.find(id);
 
       if(typeof checkStoryTypes == "undefined")
-        throw new HttpException("Data not found", 400);
+        new HttpException("Data not found", 400);
 
       let updateStoryTypes = new UpdateStoryTypesDto();
       updateStoryTypes.type = data.type;
@@ -124,7 +124,7 @@ export class StoryTypesController {
       new ResponseOk(res, 200, false, "", null);
     } catch(e) {
       this.logger.error(e.message, e.stack);
-      throw new HttpException(e.message, 400);
+      new HttpException(e.message, 400);
     }
   }
  
@@ -139,14 +139,14 @@ export class StoryTypesController {
       const storyTypes = await this.storyTypesService.find(uid);
 
       if(typeof storyTypes == "undefined")
-        throw new HttpException("Data not found", 400);
+        new HttpException("Data not found", 400);
   
       await this.storyTypesService.destroy(uid);
 
       new ResponseOk(res, 200, false, "", null);
     } catch(e) {
       this.logger.error(e.message, e.stack);
-      throw new HttpException(e.message, 400);
+      new HttpException(e.message, 400);
     }
   }
 

@@ -20,9 +20,12 @@ export class UserStoriesController {
         @Res() res: Response
     ): Promise<void> {
         try {
-            new ResponseOk(res, 200, false, "", null);
+
+            const userStories = await this.userStoriesService.findAll()
+
+            new ResponseOk(res, 200, false, "", []);
         } catch(_) {
-            throw new HttpException('Internal Server Error', 400);
+            new HttpException('Internal Server Error', 400);
         }
     }
 
@@ -36,7 +39,7 @@ export class UserStoriesController {
         try {
             new ResponseOk(res, 200, false, "", null);
         } catch(_) {
-            throw new HttpException('Internal Server Error', 400);
+            new HttpException('Internal Server Error', 400);
         }
     }
 
@@ -50,7 +53,7 @@ export class UserStoriesController {
         try {
             new ResponseOk(res, 200, false, "", null);
         } catch(e) {
-            throw new HttpException(e.message, 400);
+            new HttpException(e.message, 400);
         }
     }
 
@@ -65,7 +68,7 @@ export class UserStoriesController {
         try {
             new ResponseOk(res, 200, false, "", null);
         } catch(e) {
-            throw new HttpException(e.message, 400);
+            new HttpException(e.message, 400);
         }
     }
  
@@ -79,7 +82,7 @@ export class UserStoriesController {
         try {
             new ResponseOk(res, 200, false, "", null);
         } catch(e) {
-            throw new HttpException(e.message, 400);
+            new HttpException(e.message, 400);
         }
     }
 }

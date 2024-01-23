@@ -26,10 +26,11 @@ let UserStoriesController = class UserStoriesController {
     }
     async all(_, res) {
         try {
-            new utils_1.ResponseOk(res, 200, false, "", null);
+            const userStories = await this.userStoriesService.findAll();
+            new utils_1.ResponseOk(res, 200, false, "", []);
         }
         catch (_) {
-            throw new common_1.HttpException('Internal Server Error', 400);
+            new common_1.HttpException('Internal Server Error', 400);
         }
     }
     async single(_, res, uid) {
@@ -37,7 +38,7 @@ let UserStoriesController = class UserStoriesController {
             new utils_1.ResponseOk(res, 200, false, "", null);
         }
         catch (_) {
-            throw new common_1.HttpException('Internal Server Error', 400);
+            new common_1.HttpException('Internal Server Error', 400);
         }
     }
     async store(data, _, res) {
@@ -45,7 +46,7 @@ let UserStoriesController = class UserStoriesController {
             new utils_1.ResponseOk(res, 200, false, "", null);
         }
         catch (e) {
-            throw new common_1.HttpException(e.message, 400);
+            new common_1.HttpException(e.message, 400);
         }
     }
     async update(data, _, res, id) {
@@ -53,7 +54,7 @@ let UserStoriesController = class UserStoriesController {
             new utils_1.ResponseOk(res, 200, false, "", null);
         }
         catch (e) {
-            throw new common_1.HttpException(e.message, 400);
+            new common_1.HttpException(e.message, 400);
         }
     }
     async delete(_, res, uid) {
@@ -61,7 +62,7 @@ let UserStoriesController = class UserStoriesController {
             new utils_1.ResponseOk(res, 200, false, "", null);
         }
         catch (e) {
-            throw new common_1.HttpException(e.message, 400);
+            new common_1.HttpException(e.message, 400);
         }
     }
 };

@@ -61,7 +61,7 @@ export class StoriesController {
             new ResponseOk(res, 200, false, "", data);
         } catch(e) {
             this.logger.error(e.message, e.stack);
-            throw new HttpException(e.message, 400);
+            new HttpException(e.message, 400);
         }
     }
 
@@ -76,7 +76,7 @@ export class StoriesController {
             const stories = await this.storiesService.find(uid);
             
             if(typeof stories == "undefined")
-                throw new HttpException("Data not found", 400);
+                new HttpException("Data not found", 400);
 
             const storyTypes = await this.storyTypesService.find(stories.type);
 
@@ -97,7 +97,7 @@ export class StoriesController {
             new ResponseOk(res, 200, false, "", data);
         } catch(e) {
             this.logger.error(e.message, e.stack);
-            throw new HttpException(e.message, 400);
+            new HttpException(e.message, 400);
         }
     }
 
@@ -135,7 +135,7 @@ export class StoriesController {
             var storyTypes = await this.storyTypesService.find(formStories.type);
 
             if(typeof storyTypes == "undefined") {
-                throw new HttpException("Data not found", 400);
+                new HttpException("Data not found", 400);
             }
 
             let formUserStories = new FormUserStoriesDto();
@@ -155,7 +155,7 @@ export class StoriesController {
             new ResponseOk(res, 200, false, "", null);
         } catch(e) {
             this.logger.error(e.message, e.stack);
-            throw new HttpException(e.message, 400);
+            new HttpException(e.message, 400);
         }
     }
 
@@ -171,7 +171,7 @@ export class StoriesController {
             const checkStories = await this.storiesService.find(id);
             
             if(typeof checkStories == "undefined")
-                throw new HttpException('Data not found', 400);
+                new HttpException('Data not found', 400);
 
             let updateStories = new UpdateStoriesDto();
             updateStories.caption = data.caption;
@@ -186,7 +186,7 @@ export class StoriesController {
             new ResponseOk(res, 200, false, "", null);
         } catch(e) {
             this.logger.error(e.message, e.stack);
-            throw new HttpException(e.message, 400);
+            new HttpException(e.message, 400);
         }
     }
  
@@ -201,7 +201,7 @@ export class StoriesController {
             const stories = await this.storiesService.find(uid);
             
             if(typeof stories == "undefined") {
-                throw new HttpException('Data not found', 400);
+                new HttpException('Data not found', 400);
 
             } else {
                 await this.storiesService.destroy(uid);
@@ -210,30 +210,30 @@ export class StoriesController {
             }
         } catch(e) {
             this.logger.error(e.message, e.stack);
-            throw new HttpException(e.message, 400);
+            new HttpException(e.message, 400);
         }
     }
 
     validateStore(data: FormStoreStoriesDto) {
         if(data.background_color == '')
-            throw new Error(`background_color is required`)
+            new Error(`background_color is required`)
         if(data.text_color == '')
-            throw new Error(`text_color is required`)
+            new Error(`text_color is required`)
         if(data.caption == '') 
-            throw new Error(`caption is required`)
+            new Error(`caption is required`)
         if(data.media == '') 
-            throw new Error(`media is required`)
+            new Error(`media is required`)
         if(data.duration == '')
-            throw new Error(`duration is required`)
+            new Error(`duration is required`)
         if(data.type == '')
-            throw new Error(`type is required`)
+            new Error(`type is required`)
         if(data.user_id == '')
-            throw new Error(`user_id is required`)
+            new Error(`user_id is required`)
     }
 
     validateUpdate(id: string) {
         if(id == '')
-            throw new Error(`id is required`)
+            new Error(`id is required`)
     }
 
     @Post('upload')

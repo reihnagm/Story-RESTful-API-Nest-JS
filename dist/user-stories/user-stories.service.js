@@ -21,17 +21,17 @@ const user_stories_entity_1 = require("../entities/user_stories.entity");
 const store_dto_1 = require("../dto/user-stories/store.dto");
 const winston_logger_service_1 = require("../winston.logger.service");
 let UserStoriesService = class UserStoriesService {
-    constructor(userStories, logger) {
+    constructor(userStories, connection, logger) {
         this.userStories = userStories;
+        this.connection = connection;
         this.logger = logger;
     }
     async findAll() {
         try {
-            return await this.userStories
-                .createQueryBuilder("s")
-                .select("s.uid, s.user_id, s.story_id, s.created_at, s.updated_at")
-                .orderBy("s.uid", "DESC")
-                .getRawMany();
+            return this.connection.query(`
+                SELECT u.email, u.phone FROM user_stories us 
+                INNER JOIN users u ON us.user_id = u.uid
+            `);
         }
         catch (e) {
             this.logger.error(e.message, e.stack);
@@ -105,7 +105,9 @@ __decorate([
 UserStoriesService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(user_stories_entity_1.UserStories)),
+    __param(1, (0, typeorm_1.InjectDataSource)()),
     __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Connection,
         winston_logger_service_1.WinstonLoggerService])
 ], UserStoriesService);
 exports.UserStoriesService = UserStoriesService;

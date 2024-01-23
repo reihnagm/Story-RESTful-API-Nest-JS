@@ -36,12 +36,12 @@ let UsersController = class UsersController {
             auth.password = data.password;
             let errors = await (0, class_validator_1.validate)(auth);
             if (errors.length > 0) {
-                throw new common_1.HttpException(errors[0].constraints, 400);
+                new common_1.HttpException(errors[0].constraints, 400);
             }
             else {
                 let login = await this.usersService.login(auth);
                 if (typeof login == "undefined") {
-                    throw new common_1.HttpException('Phone / Password is incorrect', 400);
+                    new common_1.HttpException('Phone / Password is incorrect', 400);
                 }
                 else {
                     let isMatch = await bcrypt.compare(auth.password, login.password);
@@ -61,14 +61,14 @@ let UsersController = class UsersController {
                         });
                     }
                     else {
-                        throw new common_1.HttpException('Phone / Password is incorrect', 400);
+                        new common_1.HttpException('Phone / Password is incorrect', 400);
                     }
                 }
             }
         }
         catch (e) {
             this.logger.error(e.message, e.stack);
-            throw new common_1.HttpException(e.message, 400);
+            new common_1.HttpException(e.message, 400);
         }
     }
     async register(_, res, data) {
@@ -81,7 +81,7 @@ let UsersController = class UsersController {
             auth.password = await bcrypt.hash(auth.password, 10);
             let errors = await (0, class_validator_1.validate)(auth);
             if (errors.length > 0) {
-                throw new common_1.HttpException(errors[0].constraints, 400);
+                new common_1.HttpException(errors[0].constraints, 400);
             }
             else {
                 let isUserExist = await this.usersService.isUserExists(auth);
@@ -96,13 +96,13 @@ let UsersController = class UsersController {
                     });
                 }
                 else {
-                    throw new common_1.HttpException('User already exist', 400);
+                    new common_1.HttpException('User already exist', 400);
                 }
             }
         }
         catch (e) {
             this.logger.error(e.message, e.stack);
-            throw new common_1.HttpException(e.message, 400);
+            new common_1.HttpException(e.message, 400);
         }
     }
 };

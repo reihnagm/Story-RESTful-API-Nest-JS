@@ -31,11 +31,11 @@ export class UsersController {
 
             let errors = await validate(auth);
             if(errors.length > 0) {
-                throw new HttpException(errors[0].constraints, 400);
+                new HttpException(errors[0].constraints, 400);
             } else {
                 let login = await this.usersService.login(auth);
                 if(typeof login == "undefined") {
-                    throw new HttpException('Phone / Password is incorrect', 400);
+                    new HttpException('Phone / Password is incorrect', 400);
                 } else {
                     let isMatch = await bcrypt.compare(
                         auth.password, 
@@ -56,13 +56,13 @@ export class UsersController {
                             },
                         })
                     } else {
-                        throw new HttpException('Phone / Password is incorrect', 400);
+                        new HttpException('Phone / Password is incorrect', 400);
                     }
                 }
             }
         } catch(e) {
             this.logger.error(e.message, e.stack);
-            throw new HttpException(e.message, 400);
+            new HttpException(e.message, 400);
         }
     }
 
@@ -83,7 +83,7 @@ export class UsersController {
             
             let errors = await validate(auth);
             if (errors.length > 0) {
-                throw new HttpException(errors[0].constraints, 400);
+                new HttpException(errors[0].constraints, 400);
             } else {
                 let isUserExist = await this.usersService.isUserExists(auth);
                 if(isUserExist == null) {
@@ -96,12 +96,12 @@ export class UsersController {
                         updatedAt: auth.updated_at
                     });
                 } else {
-                    throw new HttpException('User already exist', 400);
+                    new HttpException('User already exist', 400);
                 }
             }
         } catch(e) {
             this.logger.error(e.message, e.stack);
-            throw new HttpException(e.message, 400);
+            new HttpException(e.message, 400);
         }
     }
 }
