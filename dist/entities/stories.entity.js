@@ -11,21 +11,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Stories = void 0;
 const typeorm_1 = require("typeorm");
+const users_entity_1 = require("./users.entity");
+const story_types_entity_1 = require("./story_types.entity");
 let Stories = class Stories {
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)({
-        type: "int",
-    }),
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Object)
 ], Stories.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)({
-        type: "varchar",
-        unique: true,
-        length: "36"
-    }),
-    __metadata("design:type", Object)
+    (0, typeorm_1.Column)({ unique: true, generated: 'uuid' }),
+    __metadata("design:type", String)
 ], Stories.prototype, "uid", void 0);
 __decorate([
     (0, typeorm_1.Column)({
@@ -39,7 +35,14 @@ __decorate([
         length: "36"
     }),
     __metadata("design:type", Object)
-], Stories.prototype, "type", void 0);
+], Stories.prototype, "user_id", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
+        type: "varchar",
+        length: "36"
+    }),
+    __metadata("design:type", Object)
+], Stories.prototype, "type_id", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         type: "varchar",
@@ -74,14 +77,6 @@ __decorate([
 ], Stories.prototype, "duration", void 0);
 __decorate([
     (0, typeorm_1.Column)({
-        type: "varchar",
-        length: "36",
-        default: ''
-    }),
-    __metadata("design:type", Object)
-], Stories.prototype, "user_id", void 0);
-__decorate([
-    (0, typeorm_1.Column)({
         type: 'datetime',
         default: () => 'NOW()',
     }),
@@ -94,6 +89,26 @@ __decorate([
     }),
     __metadata("design:type", Object)
 ], Stories.prototype, "updated_at", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => users_entity_1.Users, (users) => users.stories, {
+        onDelete: "CASCADE",
+    }),
+    (0, typeorm_1.JoinColumn)({
+        name: 'user_id',
+        referencedColumnName: 'uid'
+    }),
+    __metadata("design:type", users_entity_1.Users)
+], Stories.prototype, "user", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => story_types_entity_1.StoryTypes, (StoryTypes) => StoryTypes.stories, {
+        onDelete: "CASCADE",
+    }),
+    (0, typeorm_1.JoinColumn)({
+        name: 'type_id',
+        referencedColumnName: 'uid'
+    }),
+    __metadata("design:type", story_types_entity_1.StoryTypes)
+], Stories.prototype, "type", void 0);
 Stories = __decorate([
     (0, typeorm_1.Entity)()
 ], Stories);

@@ -1,18 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Stories } from './stories.entity';
 
 @Entity()
 export class Users {
-  @PrimaryGeneratedColumn({
-    type: "int",
-  })
+  @PrimaryGeneratedColumn()
   id: any;
 
-  @Column({
-    type: "varchar",
-    unique: true,
-    length: "36"
-  })
-  uid: any;
+  @Column({ unique: true, generated: 'uuid'})
+  uid: string;
 
   @Column({
     type: "varchar",
@@ -43,4 +38,7 @@ export class Users {
     default: () => 'NOW()',
   })
   updated_at: any;
+
+  @OneToMany(() => Stories, (stories) => stories.user)
+  stories: Stories[]
 }

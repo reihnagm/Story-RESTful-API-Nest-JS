@@ -11,13 +11,17 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const config_1 = require("@nestjs/config");
 const user_stories_entity_1 = require("../../entities/user_stories.entity");
+const stories_entity_1 = require("../../entities/stories.entity");
+const story_types_entity_1 = require("../../entities/story_types.entity");
 let UserStoriesModule = class UserStoriesModule {
 };
 UserStoriesModule = __decorate([
     (0, common_1.Module)({
         imports: [
             typeorm_1.TypeOrmModule.forFeature([
-                user_stories_entity_1.UserStories
+                user_stories_entity_1.UserStories,
+                stories_entity_1.Stories,
+                story_types_entity_1.StoryTypes
             ]),
             config_1.ConfigModule.forRoot()
         ],

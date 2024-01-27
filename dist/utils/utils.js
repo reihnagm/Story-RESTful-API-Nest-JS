@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Utils = exports.ResponseOk = void 0;
+exports.Utils = exports.JwtDecode = exports.CResponse = void 0;
 const moment = require("moment");
+const jsonwebtoken_1 = require("jsonwebtoken");
 const path_1 = require("path");
-class ResponseOk {
+class CResponse {
     constructor(response, status, error, message, data) {
         this.response = response;
         this.status = status;
@@ -38,7 +39,14 @@ class ResponseOk {
         }
     }
 }
-exports.ResponseOk = ResponseOk;
+exports.CResponse = CResponse;
+class JwtDecode {
+    constructor(auth) {
+        this.auth = auth;
+        this.auth = (0, jsonwebtoken_1.decode)(this.auth.replace('Bearer ', ''));
+    }
+}
+exports.JwtDecode = JwtDecode;
 class Utils {
     static response(response, status, error, message, data) {
         if (Array.isArray(data)) {

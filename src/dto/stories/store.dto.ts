@@ -5,7 +5,9 @@ export class StoreStoriesDto {
   
     media: string;
   
-    type: string;
+    type_id: string;
+
+    user_id: string;
   
     background_color: string;
     
@@ -16,6 +18,4 @@ export class StoreStoriesDto {
     created_at: any;
     
     updated_at: any;
-  
-    user_id: any;
 }  

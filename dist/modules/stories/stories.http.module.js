@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StoriesHttpModule = void 0;
 const stories_service_1 = require("../../stories/stories.service");
+const users_service_1 = require("../../users/users.service");
 const story_types_service_1 = require("../../story-types/story-types.service");
 const stories_controller_1 = require("../../stories/stories.controller");
 const common_1 = require("@nestjs/common");
@@ -29,6 +30,7 @@ StoriesHttpModule = __decorate([
             stories_service_1.StoriesService,
             story_types_service_1.StoryTypesService,
             user_stories_service_1.UserStoriesService,
+            users_service_1.UsersService,
             winston_logger_service_1.WinstonLoggerService
         ],
         controllers: [stories_controller_1.StoriesController],

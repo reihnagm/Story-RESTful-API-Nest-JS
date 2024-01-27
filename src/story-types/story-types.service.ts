@@ -18,7 +18,7 @@ export class StoryTypesService {
     try {
       return await this.storyTypesRepository
       .createQueryBuilder("s")
-      .select("s.id, s.type, s.created_at, s.updated_At")
+      .select("s.id, s.name, s.created_at, s.updated_At")
       .orderBy("s.id", "ASC")
       .getRawMany();
     } catch(e) {
@@ -30,8 +30,8 @@ export class StoryTypesService {
     try {
       return await this.storyTypesRepository
       .createQueryBuilder("s")
-      .select("s.id, s.type, s.created_at, s.updated_at")
-      .where("s.id = :id", {id: id})
+      .select("s.id, s.uid, s.name, s.created_at, s.updated_at")
+      .where("s.uid = :id", {id: id})
       .getRawOne();
     } catch(e) {
       this.logger.error(e.message, e.stack);
@@ -41,14 +41,14 @@ export class StoryTypesService {
   async update(@Param('id') id: any, data : StoryTypes) {
     try { 
       return await this.storyTypesRepository.update({id: id}, {
-        type: data.type
+        name: data.name
       });
     } catch(e) {
       this.logger.error(e.message, e.stack);
     }
   }
 
-  async store(@Param('id') data: StoreStoryTypesDto) {
+  async store(data: StoreStoryTypesDto) {
     try { 
       return await this.storyTypesRepository.save(data);
     } catch(e) {

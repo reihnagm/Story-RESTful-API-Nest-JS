@@ -28,32 +28,28 @@ let UserStoriesService = class UserStoriesService {
     }
     async findAll() {
         try {
-            return this.connection.query(`
-                SELECT u.email, u.phone FROM user_stories us 
-                INNER JOIN users u ON us.user_id = u.uid
-            `);
+            const query = `SELECT u.uid, u.email, u.phone, 
+            GROUP_CONCAT(s.uid) story_id
+            FROM user_stories us 
+            INNER JOIN users u ON us.user_id = u.uid
+            INNER JOIN stories s ON us.story_id = s.uid
+            GROUP BY u.id, u.email, u.phone`;
+            return this.connection.query(query);
         }
         catch (e) {
             this.logger.error(e.message, e.stack);
         }
     }
-    async find(uid) {
+    async findAllById(id) {
         try {
-            return await this.userStories
-                .createQueryBuilder("s")
-                .select("s.uid, s.user_id, s.story_id, s.created_at, s.updated_at")
-                .where("uid = :uid", { uid: uid })
-                .getRawOne();
-        }
-        catch (e) {
-            this.logger.error(e.message, e.stack);
-        }
-    }
-    async update(uid, data) {
-        try {
-            return await this.userStories.update({ uid: uid }, {
-                user_id: data.user_id
-            });
+            const query = `SELECT u.uid, u.email, u.phone, 
+            GROUP_CONCAT(s.uid) story_id
+            FROM user_stories us 
+            INNER JOIN users u ON us.user_id = u.uid
+            INNER JOIN stories s ON us.story_id = s.uid
+            WHERE u.uid = '${id}'
+            GROUP BY u.id, u.email, u.phone`;
+            return this.connection.query(query);
         }
         catch (e) {
             this.logger.error(e.message, e.stack);
@@ -67,41 +63,19 @@ let UserStoriesService = class UserStoriesService {
             this.logger.error(e.message, e.stack);
         }
     }
-    async destroy(uid) {
-        try {
-            return await this.userStories.delete({
-                uid: uid
-            });
-        }
-        catch (e) {
-            this.logger.error(e.message, e.stack);
-        }
-    }
 };
 __decorate([
-    __param(0, (0, common_2.Param)('uid')),
+    __param(0, (0, common_2.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], UserStoriesService.prototype, "find", null);
-__decorate([
-    __param(0, (0, common_2.Param)('uid')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, user_stories_entity_1.UserStories]),
-    __metadata("design:returntype", Promise)
-], UserStoriesService.prototype, "update", null);
+], UserStoriesService.prototype, "findAllById", null);
 __decorate([
     __param(0, (0, common_2.Param)('data')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [store_dto_1.StoreUserStoriesDto]),
     __metadata("design:returntype", Promise)
 ], UserStoriesService.prototype, "store", null);
-__decorate([
-    __param(0, (0, common_2.Param)('uid')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], UserStoriesService.prototype, "destroy", null);
 UserStoriesService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(user_stories_entity_1.UserStories)),

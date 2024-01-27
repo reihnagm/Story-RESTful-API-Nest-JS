@@ -13,6 +13,7 @@ const config_1 = require("@nestjs/config");
 const stories_entity_1 = require("../../entities/stories.entity");
 const story_types_entity_1 = require("../../entities/story_types.entity");
 const user_stories_entity_1 = require("../../entities/user_stories.entity");
+const users_entity_1 = require("../../entities/users.entity");
 let StoriesModule = class StoriesModule {
 };
 StoriesModule = __decorate([
@@ -22,6 +23,7 @@ StoriesModule = __decorate([
                 stories_entity_1.Stories,
                 story_types_entity_1.StoryTypes,
                 user_stories_entity_1.UserStories,
+                users_entity_1.Users
             ]),
             config_1.ConfigModule.forRoot()
         ],

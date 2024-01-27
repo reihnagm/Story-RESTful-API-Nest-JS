@@ -2,8 +2,7 @@ import { Controller, Get, Post, Req,
   Res, Response, Request, Body, Delete, 
   Query, Put, UseGuards, HttpException 
 } from '@nestjs/common';
-import { v4 } from 'uuid';
-import { ResponseOk, Utils } from '@utils/utils';
+import { CResponse, Utils } from '@utils/utils';
 import { StoryTypesService } from '@story-types/story-types.service';
 import { UsersGuard } from '@auth/users.guard';
 import { StoreStoryTypesDto } from '@dto/story-types/store.dto';
@@ -37,13 +36,13 @@ export class StoryTypesController {
 
         data.push({
           id: storyType.id,
-          type: storyType.type,
+          type: storyType.name,
           created_at: Utils.formatDateWithSeconds(storyType.created_at),
           updated_at: Utils.formatDateWithSeconds(storyType.updated_at),
         });
       }
 
-      new ResponseOk(res, 200, false, "", data);
+      new CResponse(res, 200, false, "", data);
     } catch(e) {
       this.logger.error(e.message, e.stack);
       new HttpException(e.message, 400);
@@ -65,12 +64,12 @@ export class StoryTypesController {
 
       let data = {
         id: storyTypes.uid,
-        type: storyTypes.type,
+        type: storyTypes.name,
         created_at: Utils.formatDate(storyTypes.created_at),
         updated_at: Utils.formatDate(storyTypes.updated_at),
       };
         
-      new ResponseOk(res, 200, false, "", data);
+      new CResponse(res, 200, false, "", data);
     } catch(e) {
       this.logger.error(e.message, e.stack);
       new HttpException(e.message, 400);
@@ -87,12 +86,11 @@ export class StoryTypesController {
     try {
       let storyTypes = new StoreStoryTypesDto();
 
-      storyTypes.uid = v4();
-      storyTypes.type = data.type;
+      storyTypes.name = data.name;
   
       await this.storyTypesService.store(storyTypes);
 
-      new ResponseOk(res, 200, false, "", null);
+      new CResponse(res, 200, false, "", null);
     } catch(e) {
       this.logger.error(e.message, e.stack);
       new HttpException(e.message, 400);
@@ -114,14 +112,14 @@ export class StoryTypesController {
         new HttpException("Data not found", 400);
 
       let updateStoryTypes = new UpdateStoryTypesDto();
-      updateStoryTypes.type = data.type;
+      updateStoryTypes.name = data.name;
 
       let storyTypes = new StoryTypes();
-      storyTypes.type = updateStoryTypes.type;
+      storyTypes.name = updateStoryTypes.name;
 
       await this.storyTypesService.update(id, storyTypes);
       
-      new ResponseOk(res, 200, false, "", null);
+      new CResponse(res, 200, false, "", null);
     } catch(e) {
       this.logger.error(e.message, e.stack);
       new HttpException(e.message, 400);
@@ -143,7 +141,7 @@ export class StoryTypesController {
   
       await this.storyTypesService.destroy(uid);
 
-      new ResponseOk(res, 200, false, "", null);
+      new CResponse(res, 200, false, "", null);
     } catch(e) {
       this.logger.error(e.message, e.stack);
       new HttpException(e.message, 400);

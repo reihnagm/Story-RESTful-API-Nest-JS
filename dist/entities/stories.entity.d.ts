@@ -1,13 +1,17 @@
+import { Users } from './users.entity';
+import { StoryTypes } from './story_types.entity';
 export declare class Stories {
     id: any;
-    uid: any;
+    uid: string;
     caption: any;
-    type: any;
+    user_id: any;
+    type_id: any;
     media: any;
     background_color: any;
     text_color: any;
     duration: any;
-    user_id: any;
     created_at: any;
     updated_at: any;
+    user: Users;
+    type: StoryTypes;
 }

@@ -1,3 +1,3 @@
 export class UpdateStoryTypesDto {  
-    type: string;
+    name: string;
 }

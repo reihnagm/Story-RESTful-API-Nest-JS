@@ -16,7 +16,6 @@ exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
 const class_validator_1 = require("class-validator");
 const bcrypt = require("bcrypt");
-const uuid_1 = require("uuid");
 const utils_1 = require("../utils/utils");
 const register_dto_1 = require("../dto/users/register-dto");
 const login_dto_1 = require("../dto/users/login-dto");
@@ -32,77 +31,76 @@ let UsersController = class UsersController {
     async login(_, res, data) {
         try {
             let auth = new login_dto_1.LoginDto();
-            auth.phone = data.phone;
+            auth.val = data.val;
             auth.password = data.password;
             let errors = await (0, class_validator_1.validate)(auth);
             if (errors.length > 0) {
-                new common_1.HttpException(errors[0].constraints, 400);
+                throw new Error(errors[0].constraints.message);
             }
             else {
                 let login = await this.usersService.login(auth);
                 if (typeof login == "undefined") {
-                    new common_1.HttpException('Phone / Password is incorrect', 400);
+                    throw new Error('Account is incorrect');
                 }
                 else {
                     let isMatch = await bcrypt.compare(auth.password, login.password);
                     if (isMatch) {
                         const payload = {
-                            sub: login.uid
+                            user_id: login.uid
                         };
-                        new utils_1.ResponseOk(res, 200, false, "", {
+                        new utils_1.CResponse(res, 200, false, "", {
                             token: await this.jwtService.signAsync(payload),
                             user: {
                                 id: login.uid,
                                 email: login.email,
                                 phone: login.phone,
-                                created_at: login.created_at,
-                                updated_at: login.updated_at
+                                created_at: utils_1.Utils.formatDateWithSeconds(login.created_at),
+                                updated_at: utils_1.Utils.formatDateWithSeconds(login.updated_at)
                             },
                         });
                     }
                     else {
-                        new common_1.HttpException('Phone / Password is incorrect', 400);
+                        throw new Error('Account is incorrect');
                     }
                 }
             }
         }
         catch (e) {
             this.logger.error(e.message, e.stack);
-            new common_1.HttpException(e.message, 400);
+            new utils_1.CResponse(res, 400, true, e.message, null);
         }
     }
     async register(_, res, data) {
         try {
             let auth = new register_dto_1.RegisterDto();
-            auth.uid = (0, uuid_1.v4)();
             auth.phone = data.phone;
             auth.email = data.email;
             auth.password = data.password;
             auth.password = await bcrypt.hash(auth.password, 10);
             let errors = await (0, class_validator_1.validate)(auth);
             if (errors.length > 0) {
-                new common_1.HttpException(errors[0].constraints, 400);
+                throw new Error(errors[0].constraints.message);
             }
             else {
                 let isUserExist = await this.usersService.isUserExists(auth);
                 if (isUserExist == null) {
                     await this.usersService.register(auth);
-                    new utils_1.ResponseOk(res, 200, false, "", {
+                    new utils_1.CResponse(res, 200, false, "", {
                         id: auth.uid,
                         email: auth.email,
                         phone: auth.phone,
-                        createdAt: auth.created_at,
-                        updatedAt: auth.updated_at
+                        created_at: utils_1.Utils.formatDateWithSeconds(auth.created_at),
+                        updated_at: utils_1.Utils.formatDateWithSeconds(auth.updated_at)
                     });
                 }
                 else {
-                    new common_1.HttpException('User already exist', 400);
+                    throw new Error('User already exist');
                 }
             }
         }
         catch (e) {
             this.logger.error(e.message, e.stack);
-            new common_1.HttpException(e.message, 400);
+            new utils_1.CResponse(res, 400, true, e.message, null);
         }
     }
 };

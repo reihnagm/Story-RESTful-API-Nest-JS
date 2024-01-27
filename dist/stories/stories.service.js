@@ -29,8 +29,20 @@ let StoriesService = class StoriesService {
         try {
             return await this.storiesRepository
                 .createQueryBuilder("s")
-                .select("s.uid, s.caption, s.media, s.background_color, s.text_color, s.type, s.created_at, s.updated_at")
+                .select("s.uid, s.caption, s.media, s.background_color, s.text_color, s.duration, s.type, s.created_at, s.updated_at")
                 .orderBy("s.id", "DESC")
+                .getRawMany();
+        }
+        catch (e) {
+            this.logger.error(e.message, e.stack);
+        }
+    }
+    async findAllById(id) {
+        try {
+            return await this.storiesRepository
+                .createQueryBuilder("s")
+                .select("s.uid, s.caption, s.media, s.background_color, s.text_color, s.duration, s.type, s.created_at, s.updated_at")
+                .where("uid = :uid", { uid: id })
                 .getRawMany();
         }
         catch (e) {
@@ -41,7 +53,7 @@ let StoriesService = class StoriesService {
         try {
             return await this.storiesRepository
                 .createQueryBuilder("s")
-                .select("s.uid, s.caption, s.media, s.background_color, s.text_color, s.type, s.created_at, s.updated_at")
+                .select("s.uid, s.caption, s.media, s.background_color, s.text_color, s.duration, s.type, s.created_at, s.updated_at")
                 .where("uid = :uid", { uid: id })
                 .getRawOne();
         }
@@ -61,7 +73,7 @@ let StoriesService = class StoriesService {
     }
     async store(data) {
         try {
-            return await this.storiesRepository.save(data);
+            return (await this.storiesRepository.save(data)).uid;
         }
         catch (e) {
             this.logger.error(e.message, e.stack);
@@ -78,6 +90,12 @@ let StoriesService = class StoriesService {
         }
     }
 };
+__decorate([
+    __param(0, (0, common_2.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], StoriesService.prototype, "findAllById", null);
 __decorate([
     __param(0, (0, common_2.Param)('id')),
     __metadata("design:type", Function),

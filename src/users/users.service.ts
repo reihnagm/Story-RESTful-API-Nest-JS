@@ -4,6 +4,7 @@ import { Users } from "@entities/users.entity";
 import { LoginDto } from "@dto/users/login-dto";
 import { RegisterDto } from "@dto/users/register-dto";
 import { WinstonLoggerService } from "src/winston.logger.service";
+import { Param } from "@nestjs/common";
 
 export class UsersService {
     constructor(
@@ -15,9 +16,26 @@ export class UsersService {
     async login(data: LoginDto) : Promise<Users> { 
         try {
             return await this.authRepository
-            .createQueryBuilder("user")
-            .select("user.uid, user.phone, user.password, user.email, user.created_at, user.updated_at")
-            .where("user.phone = :phone", { phone: data.phone })
+            .createQueryBuilder("u")
+            .select("u.uid, u.phone, u.password, u.email, u.created_at, u.updated_at")
+            .where("u.phone = :phone", { 
+                phone: data.val 
+            })
+            .orWhere("u.email = :email", {
+                email: data.val
+            })
+            .getRawOne();
+        } catch(e) {
+            this.logger.error(e.message, e.stack);
+        }
+    }
+
+    async find(@Param('uid') uid: string) : Promise<Users> {
+        try {
+            return await this.authRepository
+            .createQueryBuilder("u")
+            .select("u.uid")
+            .where("uid = :uid", { uid: uid })
             .getRawOne();
         } catch(e) {
             this.logger.error(e.message, e.stack);

@@ -8,6 +8,7 @@ export declare class UsersService {
     private readonly logger;
     constructor(authRepository: Repository<Users>, logger: WinstonLoggerService);
     login(data: LoginDto): Promise<Users>;
+    find(uid: string): Promise<Users>;
     register(data: RegisterDto): Promise<Users>;
     isUserExists(data: RegisterDto): Promise<Users>;
 }

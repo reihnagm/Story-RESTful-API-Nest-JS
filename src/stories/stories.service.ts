@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Stories } from '@entities/stories.entity';
 import { Param } from '@nestjs/common';
 import { StoreStoriesDto } from '@dto/stories/store.dto';
 import { WinstonLoggerService } from 'src/winston.logger.service';
+import { Http } from 'winston/lib/winston/transports';
 // import { Interval } from '@nestjs/schedule';
 
 @Injectable()
@@ -24,8 +25,20 @@ export class StoriesService {
     try {
       return await this.storiesRepository
       .createQueryBuilder("s")
-      .select("s.uid, s.caption, s.media, s.background_color, s.text_color, s.type, s.created_at, s.updated_at")
+      .select("s.uid, s.caption, s.media, s.background_color, s.text_color, s.duration, s.type, s.created_at, s.updated_at")
       .orderBy("s.id", "DESC")
+      .getRawMany()
+    } catch(e) {
+      this.logger.error(e.message, e.stack);
+    }
+  }
+
+  async findAllById(@Param('id') id: string) : Promise<Stories[]> {
+    try {
+      return await this.storiesRepository
+      .createQueryBuilder("s")
+      .select("s.uid, s.caption, s.media, s.background_color, s.text_color, s.duration, s.type, s.created_at, s.updated_at")
+      .where("uid = :uid", { uid: id })
       .getRawMany()
     } catch(e) {
       this.logger.error(e.message, e.stack);
@@ -36,7 +49,7 @@ export class StoriesService {
     try {
       return await this.storiesRepository
       .createQueryBuilder("s")
-      .select("s.uid, s.caption, s.media, s.background_color, s.text_color, s.type, s.created_at, s.updated_at")
+      .select("s.uid, s.caption, s.media, s.background_color, s.text_color, s.duration, s.type, s.created_at, s.updated_at")
       .where("uid = :uid", { uid: id })
       .getRawOne()
     } catch(e) {
@@ -54,9 +67,9 @@ export class StoriesService {
     }
   }
 
-  async store(@Param('data') data: StoreStoriesDto) {
+  async store(@Param('data') data: StoreStoriesDto) : Promise<string> {
     try { 
-      return await this.storiesRepository.save(data);
+      return (await this.storiesRepository.save(data)).uid;
     } catch(e) {
       this.logger.error(e.message, e.stack);
     }

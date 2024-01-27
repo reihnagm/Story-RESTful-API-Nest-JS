@@ -14,7 +14,6 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StoryTypesController = void 0;
 const common_1 = require("@nestjs/common");
-const uuid_1 = require("uuid");
 const utils_1 = require("../utils/utils");
 const story_types_service_1 = require("./story-types.service");
 const users_guard_1 = require("../users/users.guard");
@@ -36,12 +35,12 @@ let StoryTypesController = class StoryTypesController {
                 var storyType = storyTypes[i];
                 data.push({
                     id: storyType.id,
-                    type: storyType.type,
+                    type: storyType.name,
                     created_at: utils_1.Utils.formatDateWithSeconds(storyType.created_at),
                     updated_at: utils_1.Utils.formatDateWithSeconds(storyType.updated_at),
                 });
             }
-            new utils_1.ResponseOk(res, 200, false, "", data);
+            new utils_1.CResponse(res, 200, false, "", data);
         }
         catch (e) {
             this.logger.error(e.message, e.stack);
@@ -55,11 +54,11 @@ let StoryTypesController = class StoryTypesController {
                 new common_1.HttpException("Data not found", 400);
             let data = {
                 id: storyTypes.uid,
-                type: storyTypes.type,
+                type: storyTypes.name,
                 created_at: utils_1.Utils.formatDate(storyTypes.created_at),
                 updated_at: utils_1.Utils.formatDate(storyTypes.updated_at),
             };
-            new utils_1.ResponseOk(res, 200, false, "", data);
+            new utils_1.CResponse(res, 200, false, "", data);
         }
         catch (e) {
             this.logger.error(e.message, e.stack);
@@ -69,10 +68,9 @@ let StoryTypesController = class StoryTypesController {
     async store(data, _, res) {
         try {
             let storyTypes = new store_dto_1.StoreStoryTypesDto();
-            storyTypes.uid = (0, uuid_1.v4)();
-            storyTypes.type = data.type;
+            storyTypes.name = data.name;
             await this.storyTypesService.store(storyTypes);
-            new utils_1.ResponseOk(res, 200, false, "", null);
+            new utils_1.CResponse(res, 200, false, "", null);
         }
         catch (e) {
             this.logger.error(e.message, e.stack);
@@ -85,11 +83,11 @@ let StoryTypesController = class StoryTypesController {
             if (typeof checkStoryTypes == "undefined")
                 new common_1.HttpException("Data not found", 400);
             let updateStoryTypes = new update_dto_1.UpdateStoryTypesDto();
-            updateStoryTypes.type = data.type;
+            updateStoryTypes.name = data.name;
             let storyTypes = new story_types_entity_1.StoryTypes();
-            storyTypes.type = updateStoryTypes.type;
+            storyTypes.name = updateStoryTypes.name;
             await this.storyTypesService.update(id, storyTypes);
-            new utils_1.ResponseOk(res, 200, false, "", null);
+            new utils_1.CResponse(res, 200, false, "", null);
         }
         catch (e) {
             this.logger.error(e.message, e.stack);
@@ -102,7 +100,7 @@ let StoryTypesController = class StoryTypesController {
             if (typeof storyTypes == "undefined")
                 new common_1.HttpException("Data not found", 400);
             await this.storyTypesService.destroy(uid);
-            new utils_1.ResponseOk(res, 200, false, "", null);
+            new utils_1.CResponse(res, 200, false, "", null);
         }
         catch (e) {
             this.logger.error(e.message, e.stack);

@@ -8,8 +8,6 @@ export declare class UserStoriesService {
     private readonly logger;
     constructor(userStories: Repository<UserStories>, connection: Connection, logger: WinstonLoggerService);
     findAll(): Promise<[]>;
-    find(uid: string): Promise<UserStories>;
-    update(uid: any, data: UserStories): Promise<import("typeorm").UpdateResult>;
+    findAllById(id: string): Promise<[]>;
     store(data: StoreUserStoriesDto): Promise<StoreUserStoriesDto & UserStories>;
-    destroy(uid: any): Promise<import("typeorm").DeleteResult>;
 }

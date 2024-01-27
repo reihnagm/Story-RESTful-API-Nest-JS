@@ -11,21 +11,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Users = void 0;
 const typeorm_1 = require("typeorm");
+const stories_entity_1 = require("./stories.entity");
 let Users = class Users {
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)({
-        type: "int",
-    }),
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Object)
 ], Users.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)({
-        type: "varchar",
-        unique: true,
-        length: "36"
-    }),
-    __metadata("design:type", Object)
+    (0, typeorm_1.Column)({ unique: true, generated: 'uuid' }),
+    __metadata("design:type", String)
 ], Users.prototype, "uid", void 0);
 __decorate([
     (0, typeorm_1.Column)({
@@ -62,6 +57,10 @@ __decorate([
     }),
     __metadata("design:type", Object)
 ], Users.prototype, "updated_at", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => stories_entity_1.Stories, (stories) => stories.user),
+    __metadata("design:type", Array)
+], Users.prototype, "stories", void 0);
 Users = __decorate([
     (0, typeorm_1.Entity)()
 ], Users);

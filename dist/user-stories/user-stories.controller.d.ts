@@ -1,12 +1,13 @@
-import { UpdateStoriesDto } from '@dto/stories/update.dto';
-import { FormUserStoriesDto } from '@dto/user-stories/form.store.dto';
 import { UserStoriesService } from './user-stories.service';
+import { StoriesService } from '@stories/stories.service';
+import { StoryTypesService } from '@story-types/story-types.service';
+import { WinstonLoggerService } from 'src/winston.logger.service';
 export declare class UserStoriesController {
     private userStoriesService;
-    constructor(userStoriesService: UserStoriesService);
+    private stories;
+    private storiesTypes;
+    private readonly logger;
+    constructor(userStoriesService: UserStoriesService, stories: StoriesService, storiesTypes: StoryTypesService, logger: WinstonLoggerService);
     all(_: Request, res: Response): Promise<void>;
-    single(_: Request, res: Response, uid: string): Promise<void>;
-    store(data: FormUserStoriesDto, _: Request, res: Response): Promise<void>;
-    update(data: UpdateStoriesDto, _: Request, res: Response, id: string): Promise<void>;
-    delete(_: Request, res: Response, uid: string): Promise<void>;
+    single(_: Request, res: Response, id: string): Promise<void>;
 }

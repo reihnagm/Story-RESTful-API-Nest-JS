@@ -18,32 +18,30 @@ export class UserStoriesService {
 
     async findAll() : Promise<[]> {
         try {
-            return this.connection.query(`
-                SELECT u.email, u.phone FROM user_stories us 
-                INNER JOIN users u ON us.user_id = u.uid
-            `);
-        } catch(e) {
-            this.logger.error(e.message, e.stack);
-        }
-    }
+            const query = `SELECT u.uid, u.email, u.phone, 
+            GROUP_CONCAT(s.uid) story_id
+            FROM user_stories us 
+            INNER JOIN users u ON us.user_id = u.uid
+            INNER JOIN stories s ON us.story_id = s.uid
+            GROUP BY u.id, u.email, u.phone`
 
-    async find(@Param('uid') uid: string) : Promise<UserStories> {
-        try {
-            return await this.userStories
-            .createQueryBuilder("s")
-            .select("s.uid, s.user_id, s.story_id, s.created_at, s.updated_at")
-            .where("uid = :uid", { uid: uid })
-            .getRawOne();
+            return this.connection.query(query);
         } catch(e) {
             this.logger.error(e.message, e.stack);
         }
     }
-  
-    async update(@Param('uid') uid: any, data : UserStories) {
-        try { 
-            return await this.userStories.update({uid: uid}, {
-                user_id: data.user_id
-            });
+    
+    async findAllById(@Param('id') id: string) : Promise<[]> {
+        try {
+            const query = `SELECT u.uid, u.email, u.phone, 
+            GROUP_CONCAT(s.uid) story_id
+            FROM user_stories us 
+            INNER JOIN users u ON us.user_id = u.uid
+            INNER JOIN stories s ON us.story_id = s.uid
+            WHERE u.uid = '${id}'
+            GROUP BY u.id, u.email, u.phone`;
+            
+            return this.connection.query(query);
         } catch(e) {
             this.logger.error(e.message, e.stack);
         }
@@ -57,13 +55,4 @@ export class UserStoriesService {
         }
     }
 
-    async destroy(@Param('uid') uid: any) {
-        try {
-            return await this.userStories.delete({ 
-                uid: uid
-            });
-        } catch(e) {
-            this.logger.error(e.message, e.stack);
-        }
-    }
 }

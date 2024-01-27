@@ -1,18 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Users } from './users.entity';
+import { StoryTypes } from './story_types.entity';
 
 @Entity()
 export class Stories {
-  @PrimaryGeneratedColumn({
-    type: "int",
-  })
+  @PrimaryGeneratedColumn()
   id: any;
 
-  @Column({
-    type: "varchar",
-    unique: true,
-    length: "36"
-  })
-  uid: any;
+  @Column({ unique: true, generated: 'uuid'})
+  uid: string;
 
   @Column({
     type: "longtext"
@@ -23,7 +19,13 @@ export class Stories {
     type: "varchar",
     length: "36"
   })
-  type: any;
+  user_id: any;
+
+  @Column({
+    type: "varchar",
+    length: "36"
+  })
+  type_id: any;
 
   @Column({
     type: "varchar",
@@ -54,13 +56,6 @@ export class Stories {
   duration: any;
 
   @Column({
-    type: "varchar",
-    length: "36",
-    default: ''
-  })
-  user_id: any;
-
-  @Column({
     type: 'datetime',
     default: () => 'NOW()',
   })
@@ -71,4 +66,22 @@ export class Stories {
     default: () => 'NOW()',
   })
   updated_at: any;
+
+  @ManyToOne(() => Users, (users) => users.stories, {
+    onDelete: "CASCADE",
+  })
+  @JoinColumn({
+    name: 'user_id',
+    referencedColumnName:'uid'
+  })
+  user: Users
+
+  @ManyToOne(() => StoryTypes, (StoryTypes) => StoryTypes.stories, {
+    onDelete: "CASCADE",
+  })
+  @JoinColumn({
+    name: 'type_id',
+    referencedColumnName:'uid'
+  })
+  type: StoryTypes
 }

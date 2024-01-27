@@ -18,7 +18,6 @@ const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const story_types_entity_1 = require("../entities/story_types.entity");
 const common_2 = require("@nestjs/common");
-const store_dto_1 = require("../dto/story-types/store.dto");
 const winston_logger_service_1 = require("../winston.logger.service");
 let StoryTypesService = class StoryTypesService {
     constructor(storyTypesRepository, logger) {
@@ -29,7 +28,7 @@ let StoryTypesService = class StoryTypesService {
         try {
             return await this.storyTypesRepository
                 .createQueryBuilder("s")
-                .select("s.id, s.type, s.created_at, s.updated_At")
+                .select("s.id, s.name, s.created_at, s.updated_At")
                 .orderBy("s.id", "ASC")
                 .getRawMany();
         }
@@ -41,8 +40,8 @@ let StoryTypesService = class StoryTypesService {
         try {
             return await this.storyTypesRepository
                 .createQueryBuilder("s")
-                .select("s.id, s.type, s.created_at, s.updated_at")
-                .where("s.id = :id", { id: id })
+                .select("s.id, s.uid, s.name, s.created_at, s.updated_at")
+                .where("s.uid = :id", { id: id })
                 .getRawOne();
         }
         catch (e) {
@@ -52,7 +51,7 @@ let StoryTypesService = class StoryTypesService {
     async update(id, data) {
         try {
             return await this.storyTypesRepository.update({ id: id }, {
-                type: data.type
+                name: data.name
             });
         }
         catch (e) {
@@ -90,12 +89,6 @@ __decorate([
     __metadata("design:paramtypes", [Object, story_types_entity_1.StoryTypes]),
     __metadata("design:returntype", Promise)
 ], StoryTypesService.prototype, "update", null);
-__decorate([
-    __param(0, (0, common_2.Param)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [store_dto_1.StoreStoryTypesDto]),
-    __metadata("design:returntype", Promise)
-], StoryTypesService.prototype, "store", null);
 __decorate([
     __param(0, (0, common_2.Param)('id')),
     __metadata("design:type", Function),

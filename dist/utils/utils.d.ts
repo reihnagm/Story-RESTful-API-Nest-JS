@@ -1,10 +1,14 @@
-export declare class ResponseOk {
+export declare class CResponse {
     private response;
     private status;
     private error;
     private message;
     private data;
     constructor(response: any, status: number, error: boolean, message: string, data: any);
+}
+export declare class JwtDecode {
+    readonly auth: any;
+    constructor(auth: any);
 }
 export declare class Utils {
     static response(response: any, status: number, error: boolean, message: string, data: any): any;

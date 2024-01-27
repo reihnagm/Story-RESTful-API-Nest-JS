@@ -1,24 +1,19 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Stories } from './stories.entity';
 
 @Entity()
 export class StoryTypes {
-  @PrimaryGeneratedColumn({
-    type: "int",
-  })
+  @PrimaryGeneratedColumn()
   id: any;
 
-  @Column({
-    type: "varchar",
-    unique: true,
-    length: "36"
-  })
-  uid: any;
+  @Column({ unique: true, generated: 'uuid'})
+  uid: string;
 
   @Column({
     type: "varchar",
     length: "20"
   })
-  type: any;
+  name: any;
 
   @Column({
     type: 'datetime',
@@ -31,4 +26,7 @@ export class StoryTypes {
     default: () => 'NOW()',
   })
   updated_at: any;
+
+  @OneToMany(() => Stories, (stories) => stories.type)
+  stories: Stories[]
 }

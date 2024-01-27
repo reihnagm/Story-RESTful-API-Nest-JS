@@ -1,5 +1,6 @@
 // Service
 import { StoriesService } from '@stories/stories.service';
+import { UsersService } from '@auth/users.service';
 import { StoryTypesService } from '@story-types/story-types.service';
 
 // Controller
@@ -23,6 +24,7 @@ import { WinstonLoggerService } from 'src/winston.logger.service';
     StoriesService, 
     StoryTypesService,
     UserStoriesService,
+    UsersService,
     WinstonLoggerService
   ],
   controllers: [StoriesController],

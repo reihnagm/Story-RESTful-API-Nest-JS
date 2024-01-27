@@ -1,7 +1,8 @@
 import * as moment from 'moment';
+import { decode } from 'jsonwebtoken';
 import { extname } from 'path';
 
-export class ResponseOk {
+export class CResponse {
     constructor(
         private response: any,
         private status: number,
@@ -38,8 +39,23 @@ export class ResponseOk {
     }
 }
 
+export class JwtDecode {
+    constructor(
+        readonly auth: any
+    ) {
+        this.auth = decode(this.auth.replace('Bearer ', ''))
+    }
+}
+
 export class Utils {
-    static response(response: any, status: number, error: boolean, message: string, data: any) {
+
+    static response(
+        response: any, 
+        status: number, 
+        error: boolean, 
+        message: string, 
+        data: any
+    ) {
         if(Array.isArray(data)) {
             let resultPrint = {
                 status: status || 200,

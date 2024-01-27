@@ -1,18 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, ManyToOne } from 'typeorm';
+import { Users } from './users.entity';
+import { Stories } from './stories.entity';
 
 @Entity()
 export class UserStories {
-  @PrimaryGeneratedColumn({
-    type: "int",
-  })
+  @PrimaryGeneratedColumn()
   id: any;
 
-  @Column({
-    type: "varchar",
-    unique: true,
-    length: "36"
-  })
-  uid: any;
+  @Column({ unique: true, generated: 'uuid'})
+  uid: string;
 
   @Column({
     type: "varchar",
@@ -37,4 +33,22 @@ export class UserStories {
     default: () => 'NOW()',
   })
   updated_at: any;
+
+  @ManyToOne(() => Users, (users) => users.stories, {
+    onDelete: "CASCADE",
+  })
+  @JoinColumn({
+    name: 'user_id',
+    referencedColumnName:'uid'
+  })
+  user: Users
+
+  @ManyToOne(() => Stories, (stories) => stories.user, {
+    onDelete: "CASCADE",
+  })
+  @JoinColumn({
+    name: 'story_id',
+    referencedColumnName:'uid'
+  })
+  story: Stories
 }

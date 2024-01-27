@@ -11,21 +11,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StoryTypes = void 0;
 const typeorm_1 = require("typeorm");
+const stories_entity_1 = require("./stories.entity");
 let StoryTypes = class StoryTypes {
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)({
-        type: "int",
-    }),
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Object)
 ], StoryTypes.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)({
-        type: "varchar",
-        unique: true,
-        length: "36"
-    }),
-    __metadata("design:type", Object)
+    (0, typeorm_1.Column)({ unique: true, generated: 'uuid' }),
+    __metadata("design:type", String)
 ], StoryTypes.prototype, "uid", void 0);
 __decorate([
     (0, typeorm_1.Column)({
@@ -33,7 +28,7 @@ __decorate([
         length: "20"
     }),
     __metadata("design:type", Object)
-], StoryTypes.prototype, "type", void 0);
+], StoryTypes.prototype, "name", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         type: 'datetime',
@@ -48,6 +43,10 @@ __decorate([
     }),
     __metadata("design:type", Object)
 ], StoryTypes.prototype, "updated_at", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => stories_entity_1.Stories, (stories) => stories.type),
+    __metadata("design:type", Array)
+], StoryTypes.prototype, "stories", void 0);
 StoryTypes = __decorate([
     (0, typeorm_1.Entity)()
 ], StoryTypes);

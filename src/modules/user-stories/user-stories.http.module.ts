@@ -4,6 +4,8 @@ import { UserStoriesService } from 'src/user-stories/user-stories.service';
 import { UserStoriesModule } from './user-stories.module';
 import { UserStoriesController } from 'src/user-stories/user-stories.controller';
 import { WinstonLoggerService } from 'src/winston.logger.service';
+import { StoriesService } from '@stories/stories.service';
+import { StoryTypesService } from '@story-types/story-types.service';
 
 @Module({
   imports: [
@@ -14,6 +16,8 @@ import { WinstonLoggerService } from 'src/winston.logger.service';
   ],
   providers: [
     UserStoriesService,
+    StoriesService,
+    StoryTypesService,
     WinstonLoggerService
   ],
   controllers: [UserStoriesController]

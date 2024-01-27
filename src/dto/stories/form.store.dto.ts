@@ -5,7 +5,7 @@ export class FormStoreStoriesDto {
 
   media: string;
 
-  type: string;
+  type_id: string;
 
   background_color: string;
   
@@ -16,6 +16,4 @@ export class FormStoreStoriesDto {
   created_at: any;
   
   updated_at: any;
-
-  user_id: any;
 }  

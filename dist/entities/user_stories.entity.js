@@ -11,21 +11,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserStories = void 0;
 const typeorm_1 = require("typeorm");
+const users_entity_1 = require("./users.entity");
+const stories_entity_1 = require("./stories.entity");
 let UserStories = class UserStories {
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)({
-        type: "int",
-    }),
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Object)
 ], UserStories.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)({
-        type: "varchar",
-        unique: true,
-        length: "36"
-    }),
-    __metadata("design:type", Object)
+    (0, typeorm_1.Column)({ unique: true, generated: 'uuid' }),
+    __metadata("design:type", String)
 ], UserStories.prototype, "uid", void 0);
 __decorate([
     (0, typeorm_1.Column)({
@@ -55,6 +51,26 @@ __decorate([
     }),
     __metadata("design:type", Object)
 ], UserStories.prototype, "updated_at", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => users_entity_1.Users, (users) => users.stories, {
+        onDelete: "CASCADE",
+    }),
+    (0, typeorm_1.JoinColumn)({
+        name: 'user_id',
+        referencedColumnName: 'uid'
+    }),
+    __metadata("design:type", users_entity_1.Users)
+], UserStories.prototype, "user", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => stories_entity_1.Stories, (stories) => stories.user, {
+        onDelete: "CASCADE",
+    }),
+    (0, typeorm_1.JoinColumn)({
+        name: 'story_id',
+        referencedColumnName: 'uid'
+    }),
+    __metadata("design:type", stories_entity_1.Stories)
+], UserStories.prototype, "story", void 0);
 UserStories = __decorate([
     (0, typeorm_1.Entity)()
 ], UserStories);
